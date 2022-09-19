@@ -26,8 +26,24 @@ class BugDetector:
         #checks if specific values have specific output both in data and model
         pass
 
-    def check_monotonic(self, column, positive = True):
+
+    def find_most_important_feature(min, max):
+        #Manual
+        #Lime?
+        #Feature isolada
+        pass
+
+    def check_monotonic(self, column, min, max, sample, positive = True):
         #checks if feature has monotonic relationship with output (positive or negative)
+        pass
+
+    def check_instance():
+        #check if instance has specific output
+        pass
+
+    def model_calibration():
+        #quao calibrado
+        #ponto de corte
         pass
 
 class DataFrameBugDetector(BugDetector):

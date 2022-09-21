@@ -8,6 +8,8 @@ with open('models/RandomForest/RandomForest.pkl', 'rb') as f:
     RF = pickle.load(f)
 
 full_df = pd.read_csv('../datasets/fraud_new.csv')
+sample = full_df.sample(1,ignore_index=True)
+
 
 # Function without pytest
 def sanity_check(model, examples, target_column):
@@ -20,8 +22,8 @@ def sanity_check(model, examples, target_column):
 
 # Function with pytest
 @pytest.mark.parametrize("model, examples, target_column", [
-    (LR, full_df, "isFraud"),
-    (RF, full_df, "isFraud")
+    (LR, sample, "isFraud"),
+    (RF, sample, "isFraud")
 ])
 def test_sanity(model, examples, target_column):
     result = model.predict(examples.drop(target_column, axis=1))

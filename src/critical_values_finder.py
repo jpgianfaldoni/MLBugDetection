@@ -17,8 +17,8 @@ def highest_and_lowest_indexes(predictions):
 
     return highest_indexes, lowest_indexes
 
-def check_limit(model, sample, feature, limit, border, step=100, plot_graph=True):
-
+def find_critical_values(model, sample, feature, limit, border, step=100, plot_graph=True):
+    #media e dp
     column_values = []
     predictions = []
     range_ = np.linspace(limit, border, step)

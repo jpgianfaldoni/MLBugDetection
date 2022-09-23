@@ -14,6 +14,7 @@ def calibration_check(target_col, model, df, plot_graph = False):
     brier_score = brier_score_loss(y_true, y_pred)
     if plot_graph:
         disp = CalibrationDisplay.from_estimator(model, X, y_true)
+        plt.title(f"Calibration curve")
         plt.show()
     print(f"Brier Score Loss: {brier_score} for model {(type(model).__name__)}")
     return brier_score

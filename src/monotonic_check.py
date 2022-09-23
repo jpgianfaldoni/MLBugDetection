@@ -16,7 +16,6 @@ from numpy import diff
 #     return abs(pos_count-neg_count)/(len(predictions)-zeros)
 
 
-
 def monotonicity_mse(predictions, plot_graph = False):
     desc = np.minimum.accumulate(predictions)
     asc = np.maximum.accumulate(predictions)
@@ -52,11 +51,12 @@ def check_monotonicity(feature, min, max, sample, model, steps=100, plot_graph =
         print(f"Warning: Feature '{feature}' doesn`t have monotonic behavior between ranges {min} and {max}")
         # print(f"Feature '{feature}' has a score of {m_score}")
         print(f"Feature '{feature}' has a monotonicity MSE score of {m_mse_score}")
-        plt.plot(colValues, monotonic_curve, linestyle='dashed', color='red', alpha=0.7, label="Monotonic Approximation")
+        plt.plot(colValues, monotonic_curve, linestyle='dotted', linewidth=2.5, color='red', label="Monotonic Approximation")
     if plot_graph:
-        plt.plot(colValues, predictions, color='blue', alpha=0.7, label="Predictions Curve")
-        plt.title(f"Model: {type(model).__name__}")
-        plt.xlabel('Feature value')
-        plt.ylabel('Predict proba')
-        plt.legend(loc="lower right")
+        plt.plot(colValues, predictions, color='blue', alpha=0.8, linewidth=0.8, label="Predictions Curve")
+        plt.title(f"Monotonicity of '{feature}' in {type(model).__name__} Model")
+        plt.xlabel(f"Feature '{feature}' value")
+        plt.ylabel("Predict Probability")
+        plt.legend(loc='center left', bbox_to_anchor=(0.7, 0.3),
+          fancybox=True, shadow=True)
         plt.show()

@@ -40,6 +40,8 @@ def find_critical_values(model, sample, feature, limit, border, step=100, plot_g
             print(f"\tFrom values {range0} to {range1} : diff = {pred1 - pred0}")
             if(max(pred0, pred1) >= 0.5 and (min(pred0, pred1) < 0.5 )):
                 print(f"\tWarning, prediction has changed")
+                plt.axvline(x = range0, color = 'g', linestyle = '--', alpha = 0.5)
+                plt.axvline(x = range1, color = 'g', linestyle = '--', alpha = 0.5)
     if len(lowest_negatives) > 0:
         print(f"Lowest negatives identified on feature {feature}: ")
         for indexes in lowest_negatives:
@@ -49,6 +51,10 @@ def find_critical_values(model, sample, feature, limit, border, step=100, plot_g
             pred0 = round(predictions[indexes[0]], 3)
             pred1 = round(predictions[indexes[1]], 3)
             print(f"\tFrom values {range0} to {range1} : diff = {pred1 - pred0}")
+            if(max(pred0, pred1) >= 0.5 and (min(pred0, pred1) < 0.5 )):
+                print(f"\tWarning, prediction has changed")
+                plt.axvline(x = range0, color = 'r', linestyle = '--', alpha = 0.2)
+                plt.axvline(x = range1, color = 'r', linestyle = '--', alpha = 0.2)
     if ((len(lowest_negatives) > 0) or (len(highest_positives) > 0)) and plot_graph:
         plt.plot(column_values, predictions)
         plt.title(type(model).__name__)

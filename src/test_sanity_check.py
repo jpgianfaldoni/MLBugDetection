@@ -10,8 +10,6 @@ with open('models/RandomForest/RandomForest.pkl', 'rb') as f:
 full_df = pd.read_csv('../datasets/fraud_new.csv')
 sample = full_df.sample(1,ignore_index=True)
 
-
-# Function without pytest
 def sanity_check(model, examples, target_column):
     result = model.predict(examples.drop(target_column, axis=1))
     original = examples[target_column]
@@ -20,7 +18,6 @@ def sanity_check(model, examples, target_column):
         return False
     return values[0]
 
-# Function with pytest
 @pytest.mark.parametrize("model, examples, target_column", [
     (LR, sample, "isFraud"),
     (RF, sample, "isFraud")

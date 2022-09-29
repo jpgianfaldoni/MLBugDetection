@@ -37,7 +37,7 @@ def find_critical_values(model, sample, feature, limit, border, step=100):
 
     highest_positives, lowest_negatives = highest_and_lowest_indexes(predictions)
     if len(highest_positives) > 0:
-        print(f"Highest positives identified on feature {feature}: ")
+        print(f"\nHighest positives changes identified on feature '{feature}': ")
         for indexes in highest_positives:
             range0 = round(column_values[indexes[0]],3)
             range1 = round(column_values[indexes[1]],3)

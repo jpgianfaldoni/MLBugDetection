@@ -1,9 +1,7 @@
-import pandas as pd
 import numpy as np
 from matplotlib import pyplot as plt
 from numpy import diff
 from analysis_report import AnalysisReport
-
 
 def highest_and_lowest_indexes(predictions):
     dy = list(diff(predictions))

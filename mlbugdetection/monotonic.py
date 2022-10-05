@@ -1,6 +1,6 @@
 import numpy as np
 from matplotlib import pyplot as plt
-from analysis_report import AnalysisReport
+from .analysis_report import AnalysisReport
 
 def monotonicity_mse(predictions):
     desc = np.minimum.accumulate(predictions)

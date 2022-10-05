@@ -1,6 +1,6 @@
 from sklearn.calibration import CalibrationDisplay
 from sklearn.metrics import brier_score_loss
-from analysis_report import AnalysisReport
+from .analysis_report import AnalysisReport
 
 def calibration_check(target_col, model, df):
 

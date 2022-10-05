@@ -1,6 +1,59 @@
 # MLBugDetection
 
+Instalation: 
 
+```bash
+pip install mlbugdetection
+```
+
+# Functions
+
+
+
+1. Monotonic:
+    ```py
+    from mlbugdetection.monotonic import monotonicity_mse, check_monotonicity
+    ```
+
+    Usage:
+    ```py
+    check_monotonicity(feature, min, max, sample, model, steps=100)
+    ```
+
+2. Critical Values:
+    ```py
+    from mlbugdetection.critical_values import find_critical_values, highest_and_lowest_indexes
+    ```
+    
+    Usage:
+    ```py
+    find_critical_values(model, sample, feature, limit, border, step=100)
+    ```
+
+
+3. Calibration:
+    ```py
+    from mlbugdetection.calibration import calibration_check
+    ```
+    
+    Usage:
+    ```py
+    calibration_check(target_col, model, df)
+    ```
+
+4. Sanity:
+    ```py
+    from mlbugdetection.sanity import sanity_check
+    ```
+
+    Usage:
+
+    ```py
+    sanity_check(model, examples, target_column)
+    ```
+
+
+---
 
 ## Virtual Environment with Jupyter Notebook
 

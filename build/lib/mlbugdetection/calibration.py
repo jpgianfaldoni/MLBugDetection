@@ -2,10 +2,7 @@ from sklearn.calibration import CalibrationDisplay
 from sklearn.metrics import brier_score_loss
 from analysis_report import AnalysisReport
 
-
-
 def calibration_check(target_col, model, df):
-    #target_col: Df column with target labels
 
     report = AnalysisReport()
     X = df.drop([target_col], axis=1)
@@ -16,4 +13,5 @@ def calibration_check(target_col, model, df):
     report.graphs.append(fig)
     report.model_info["model_name"] = type(model).__name__
     report.metrics["brier_score"] = brier_score
+    
     return report

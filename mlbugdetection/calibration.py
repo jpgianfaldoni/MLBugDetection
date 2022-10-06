@@ -11,7 +11,7 @@ def calibration_check(target_col, model, df):
     brier_score = brier_score_loss(y_true, y_pred)
     fig = CalibrationDisplay.from_estimator(model, X, y_true).figure_
     report.graphs.append(fig)
-    report.model_info["model_name"] = type(model).__name__
+    report.model_name = type(model).__name__
     report.metrics["brier_score"] = brier_score
     
     return report

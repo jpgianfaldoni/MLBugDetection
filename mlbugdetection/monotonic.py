@@ -12,20 +12,20 @@ def monotonicity_mse(predictions):
     else:
         return asc, min(mse_asc,mse_desc)
 
-def check_monotonicity(feature, min, max, sample, model, steps=100):
+def check_monotonicity(model, sample, feature, start, stop, steps=100):
     report = AnalysisReport()
     colValues = []
     predictions = []
-    for i in np.linspace(min,max,steps):
+    for i in np.linspace(start,stop,steps):
         colValues.append(i)
         sample[feature] = i
         prediction = model.predict_proba(sample)
         predictions.append(prediction[0][0])
     
     monotonic =  (all(predictions[i] <= predictions[i + 1] for i in range(len(predictions) - 1)) or all(predictions[i] >= predictions[i + 1] for i in range(len(predictions) - 1)))
-    report.model_info["model_name"] = type(model).__name__
-    report.model_info["analysed_feature"] = feature
-    report.model_info["feature_range"] = (min, max)
+    report.model_name = type(model).__name__
+    report.analysed_feature = feature
+    report.feature_range = (start, stop)
     fig = plt.figure(figsize=(6, 3), dpi=150)
     report.graphs.append(fig)
     if monotonic:
@@ -35,7 +35,6 @@ def check_monotonicity(feature, min, max, sample, model, steps=100):
         report.metrics["monotonic"] = False
         monotonic_curve, m_mse_score = monotonicity_mse(predictions)
         report.metrics["monotonic_score"] = m_mse_score
-        report.warnings.append(f"Feature '{feature}' doesn`t have monotonic behavior between ranges {min} and {max}")
         plt.plot(colValues, monotonic_curve, linestyle='dashed', color='red', alpha=0.7, label="Monotonic Approximation")
     plt.plot(colValues, predictions, color='blue', alpha=0.7, label="Predictions Curve")
     plt.title(f"Model: {type(model).__name__}")

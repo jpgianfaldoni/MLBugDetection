@@ -17,7 +17,7 @@ pip install mlbugdetection
 
     Usage:
     ```py
-    check_monotonicity(feature, min, max, sample, model, steps=100)
+    check_monotonicity(model, sample, feature, start, stop, steps=100)
     ```
 
 2. Critical Values:
@@ -27,7 +27,7 @@ pip install mlbugdetection
     
     Usage:
     ```py
-    find_critical_values(model, sample, feature, limit, border, step=100)
+    find_critical_values(model, sample, feature, start, stop, step=100)
     ```
 
 

@@ -14,7 +14,7 @@ class AnalysisReport:
         Name of the feature being analysed.
     
     feature_range : tuple, default = ()
-        Range of values of the feature being analysed: (min, max).
+        Range of values of the feature being analysed: (start, stop).
     
     metrics : dictionary, default = {}
         Dictionary with all the calculated metrics. 

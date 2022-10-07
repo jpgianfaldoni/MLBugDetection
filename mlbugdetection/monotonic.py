@@ -12,11 +12,11 @@ def monotonicity_mse(predictions):
     else:
         return asc, min(mse_asc,mse_desc)
 
-def check_monotonicity(feature, min, max, sample, model, steps=100):
+def check_monotonicity(model, sample, feature, start, stop, steps=100):
     report = AnalysisReport()
     colValues = []
     predictions = []
-    for i in np.linspace(min,max,steps):
+    for i in np.linspace(start,stop,steps):
         colValues.append(i)
         sample[feature] = i
         prediction = model.predict_proba(sample)
@@ -25,7 +25,7 @@ def check_monotonicity(feature, min, max, sample, model, steps=100):
     monotonic =  (all(predictions[i] <= predictions[i + 1] for i in range(len(predictions) - 1)) or all(predictions[i] >= predictions[i + 1] for i in range(len(predictions) - 1)))
     report.model_name = type(model).__name__
     report.analysed_feature = feature
-    report.feature_range = (min, max)
+    report.feature_range = (start, stop)
     fig = plt.figure(figsize=(6, 3), dpi=150)
     report.graphs.append(fig)
     if monotonic:

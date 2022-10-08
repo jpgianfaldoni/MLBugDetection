@@ -13,6 +13,53 @@ def monotonicity_mse(predictions):
         return asc, min(mse_asc,mse_desc)
 
 def check_monotonicity(model, sample, feature, start, stop, steps=100):
+    '''Monotonicity Analysis
+
+    Parameters
+    ----------
+    model : sklearn model
+
+    sample : pandas DataFrame
+
+    feature : str
+
+    start : int
+
+    stop : int
+
+    steps : int, default=100
+    
+
+    Returns
+    -------
+    AnalysisReport object with following attributes:
+        For more information:
+        >>> from mlbugdetection.analysis_report import AnalysisReport
+        >>> help(AnalysisReport)
+
+    model_name : string
+        Name of the model being analysed.
+    
+    analysed_feature : string
+        Name of the feature being analysed.
+    
+    feature_range : tuple
+        Range of values of the feature being analysed: (start, stop).
+    
+    metrics : dictionary
+        Dictionary with all the calculated metrics, such as:
+        
+        'monotonic' : boolean
+             If the list of values is monotonic.
+
+        'monotonic_score': float
+            MSE between the list of values and it`s closest monotonic aproximation. 
+
+    graphs : List
+            List of all the figures created.
+
+
+    '''
     report = AnalysisReport()
     colValues = []
     predictions = []

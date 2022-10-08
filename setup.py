@@ -12,7 +12,7 @@ setup(
     description=DESCRIPTION,
     long_description_content_type="text/markdown",
     packages=find_packages(),
-    install_requires=["pandas", "numpy", "matplotlib"],
+    install_requires=["pandas", "numpy", "matplotlib", "sklearn"],
     keywords=['python'],
     classifiers=[
         "Development Status :: 1 - Planning",

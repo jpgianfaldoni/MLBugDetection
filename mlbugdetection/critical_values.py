@@ -40,17 +40,17 @@ def find_critical_values(model, sample, feature : str, start, stop, steps=100, k
     sample : pandas DataFrame
         A single row of the dataframe that will be used for the analysis.
 
-    feature : string
+    feature : str
         Feature of dataframe that will be analysed.
     
-    start : array_like
+    start : int
         The starting value of the feature's interval.
     
-    stop : array_like
+    stop : int
         The end value of the feature's interval.
     
     steps : int, default=100
-        Number of samples to generate. Must be non-negative.
+        Number of values that will be atributed to the analysed feature. Must be non-negative.
 
     keep_n : int, default=3
         Number of values that are to be keeped in each list
@@ -62,10 +62,10 @@ def find_critical_values(model, sample, feature : str, start, stop, steps=100, k
         >>> from mlbugdetection.analysis_report import AnalysisReport
         >>> help(AnalysisReport)
 
-    model_name : string
+    model_name : str
         Name of the model being analysed.
     
-    analysed_feature : string
+    analysed_feature : str
         Name of the feature being analysed.
     
     feature_range : tuple
@@ -74,7 +74,7 @@ def find_critical_values(model, sample, feature : str, start, stop, steps=100, k
     metrics : dictionary
         Dictionary with all the calculated metrics, such as:
         
-        'positive_changes_proba' : list
+        'positive_changes_proba' : List
             List of feature ranges that resulted in the biggest positive 
             changes in the model`s prediction probability.
 
@@ -167,13 +167,13 @@ def find_several_critical_values(model, samples, feature, start, stop, steps=100
     samples : pandas DataFrame
         One or more rows of the dataframe that will be used for the analysis.
 
-    feature : string
+    feature : str
         Feature of dataframe that will be analysed.
     
-    start : array_like
+    start : int
         The starting value of the feature's interval.
     
-    stop : array_like
+    stop : int
         The end value of the feature's interval.
     
     steps : int, default=100
@@ -192,10 +192,10 @@ def find_several_critical_values(model, samples, feature, start, stop, steps=100
         >>> from mlbugdetection.analysis_report import AnalysisReport
         >>> help(AnalysisReport)
 
-    model_name : string
+    model_name : str
         Name of the model being analysed.
     
-    analysed_feature : string
+    analysed_feature : str
         Name of the feature being analysed.
     
     feature_range : tuple
@@ -236,7 +236,6 @@ def find_several_critical_values(model, samples, feature, start, stop, steps=100
         
     graphs : List
         List of all the figures created.
-
     '''
     samples = samples.copy()
     report = AnalysisReport()

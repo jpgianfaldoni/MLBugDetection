@@ -3,6 +3,26 @@ from matplotlib import pyplot as plt
 from .analysis_report import AnalysisReport
 
 def monotonicity_mse(predictions):
+    """Monotonicity Mean Square Error
+
+        Calculates the MSE between a list of prediction brobabilities and the closest monotonic version
+        of this list.
+
+    Parameters
+    ----------
+
+    predictions : List
+        List of prediction probabilities calculated on the check_monotonicity function.
+    
+    Returns
+    -------
+        desc | asc : List 
+            List of closest monotonic version of "predictions".
+
+        mse_desc | mse_as : int
+            MSE between "predictions" and desc/asc.
+    """
+
     desc = np.minimum.accumulate(predictions)
     asc = np.maximum.accumulate(predictions)
     mse_desc = (np.square(predictions - desc)).mean(axis=0)
@@ -18,17 +38,22 @@ def check_monotonicity(model, sample, feature, start, stop, steps=100):
     Parameters
     ----------
     model : sklearn model
+        Model that will be used to make predictions.
 
-    sample : pandas DataFrame
+    sample : pandas.DataFrame
+        Pandas DataFrame containing one row that will be used as base point.
 
     feature : str
+        Name of the feature being analysed.
 
     start : int
+        The starting value of the feature's interval.
 
     stop : int
+        The end value of the feature's interval.
 
     steps : int, default=100
-    
+        Number of values that will be atributed to the analysed feature. Must be non-negative.
 
     Returns
     -------
@@ -37,10 +62,10 @@ def check_monotonicity(model, sample, feature, start, stop, steps=100):
         >>> from mlbugdetection.analysis_report import AnalysisReport
         >>> help(AnalysisReport)
 
-    model_name : string
+    model_name : str
         Name of the model being analysed.
     
-    analysed_feature : string
+    analysed_feature : str
         Name of the feature being analysed.
     
     feature_range : tuple
@@ -49,7 +74,7 @@ def check_monotonicity(model, sample, feature, start, stop, steps=100):
     metrics : dictionary
         Dictionary with all the calculated metrics, such as:
         
-        'monotonic' : boolean
+        'monotonic' : bool
              If the list of values is monotonic.
 
         'monotonic_score': float
@@ -57,8 +82,6 @@ def check_monotonicity(model, sample, feature, start, stop, steps=100):
 
     graphs : List
             List of all the figures created.
-
-
     '''
     report = AnalysisReport()
     colValues = []

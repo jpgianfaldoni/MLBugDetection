@@ -7,10 +7,10 @@ class AnalysisReport:
     Parameters
     ----------
 
-    model_name : string, default = ''
+    model_name : str, default = ''
         Name of the model being analysed.
     
-    analysed_feature : string, default = ''
+    analysed_feature : str, default = ''
         Name of the feature being analysed.
     
     feature_range : tuple, default = ()
@@ -20,7 +20,7 @@ class AnalysisReport:
         Dictionary with all the calculated metrics. 
         All the possible metrics that can be calculated are:
 
-        'monotonic' : boolean
+        'monotonic' : bool
              If the list of values is monotonic.
 
         'monotonic_score': float
@@ -45,8 +45,23 @@ class AnalysisReport:
             List of prediction probability values before and after the classification change.
         
         'positive_means' : dictionary
+            Contains the following:
+
+                'mean' : float
+                    Mean of the all the positive changes means
+            
+                'median' : float
+                    Median of the all the positive changes means
+            
+                'std' : float
+                    Standard Deviation of the all the positive changes means
+            
+                'var' : float
+                    Variation of the all the positive changes means
+
         
         'negative_means' : dictionary
+            Same as "positive_means", but for negative variations in the prediction probabilities.
     
     graphs : List, default = []
         List of all the figures created.

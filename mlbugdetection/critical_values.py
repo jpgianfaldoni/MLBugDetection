@@ -1,9 +1,7 @@
-import pandas as pd
 import numpy as np
 from matplotlib import pyplot as plt
 import numpy as np
 from .analysis_report import AnalysisReport
-
 
 def highest_and_lowest_indexes(predictions, keep_n=3):
     '''Return indexes of highest changes (positive or negative) 
@@ -21,8 +19,8 @@ def highest_and_lowest_indexes(predictions, keep_n=3):
     negatives = list(filter(lambda x: (x < 0), dy))
     positives = list(filter(lambda x: (x > 0), dy))
     
-    highest_positives = sorted(positives, reverse=True)[:3]
-    lowest_negatives = sorted(negatives)[:3]
+    highest_positives = sorted(positives, reverse=True)[:keep_n]
+    lowest_negatives = sorted(negatives)[:keep_n]
 
     highest_indexes = [[dy.index(x), dy.index(x)+1] for x in highest_positives]
     lowest_indexes  = [[dy.index(x), dy.index(x)+1] for x in lowest_negatives]
@@ -42,27 +40,32 @@ def find_critical_values(model, sample, feature : str, start, stop, steps=100, k
     sample : pandas DataFrame
         A single row of the dataframe that will be used for the analysis.
 
-    feature : string
+    feature : str
         Feature of dataframe that will be analysed.
     
-    start : array_like
+    start : int
         The starting value of the feature's interval.
     
-    stop : array_like
+    stop : int
         The end value of the feature's interval.
     
     steps : int, default=100
-        Number of samples to generate. Must be non-negative.
+        Number of values that will be atributed to the analysed feature. Must be non-negative.
+
+    keep_n : int, default=3
+        Number of values that are to be keeped in each list
 
     Returns
     -------
     AnalysisReport object with following attributes:
-        For more information see `help(AnalysisReport)`.
+        For more information:
+        >>> from mlbugdetection.analysis_report import AnalysisReport
+        >>> help(AnalysisReport)
 
-    model_name : string
+    model_name : str
         Name of the model being analysed.
     
-    analysed_feature : string
+    analysed_feature : str
         Name of the feature being analysed.
     
     feature_range : tuple
@@ -71,7 +74,7 @@ def find_critical_values(model, sample, feature : str, start, stop, steps=100, k
     metrics : dictionary
         Dictionary with all the calculated metrics, such as:
         
-        'positive_changes_proba' : list
+        'positive_changes_proba' : List
             List of feature ranges that resulted in the biggest positive 
             changes in the model`s prediction probability.
 
@@ -164,13 +167,13 @@ def find_several_critical_values(model, samples, feature, start, stop, steps=100
     samples : pandas DataFrame
         One or more rows of the dataframe that will be used for the analysis.
 
-    feature : string
+    feature : str
         Feature of dataframe that will be analysed.
     
-    start : array_like
+    start : int
         The starting value of the feature's interval.
     
-    stop : array_like
+    stop : int
         The end value of the feature's interval.
     
     steps : int, default=100
@@ -185,12 +188,14 @@ def find_several_critical_values(model, samples, feature, start, stop, steps=100
     Returns
     -------
     AnalysisReport object with following attributes:
-        For more information see `help(AnalysisReport)`.
+        For more information:
+        >>> from mlbugdetection.analysis_report import AnalysisReport
+        >>> help(AnalysisReport)
 
-    model_name : string
+    model_name : str
         Name of the model being analysed.
     
-    analysed_feature : string
+    analysed_feature : str
         Name of the feature being analysed.
     
     feature_range : tuple
@@ -231,7 +236,6 @@ def find_several_critical_values(model, samples, feature, start, stop, steps=100
         
     graphs : List
         List of all the figures created.
-
     '''
     samples = samples.copy()
     report = AnalysisReport()
@@ -245,7 +249,6 @@ def find_several_critical_values(model, samples, feature, start, stop, steps=100
 
     predictions_dict = {}
     for i in range(samples.shape[0]):
-        # print("entrou")
         predictions_dict[i] = {
             "preds" : []
         }
@@ -255,7 +258,6 @@ def find_several_critical_values(model, samples, feature, start, stop, steps=100
         samples_predictions = model.predict_proba(samples)
         for i in range(len(samples_predictions)):
             predictions_dict[i]["preds"].append(samples_predictions[i][0])
-        # print(predictions_dict)
 
     positive_means = []
     negative_means = []

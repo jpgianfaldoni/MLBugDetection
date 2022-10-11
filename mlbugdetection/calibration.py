@@ -1,3 +1,4 @@
+import pickle
 from sklearn.calibration import CalibrationDisplay
 from sklearn.metrics import brier_score_loss
 from .analysis_report import AnalysisReport
@@ -47,6 +48,10 @@ def calibration_check(model, samples, target):
             List of all the figures created.
 
     '''
+    if type(model) == str:
+        with open(model, 'rb') as f:
+            model = pickle.load(f)
+
     report = AnalysisReport()
     X = samples.drop([target], axis=1)
     y_true = samples[target]

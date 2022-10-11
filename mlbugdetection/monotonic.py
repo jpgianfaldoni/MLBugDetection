@@ -1,3 +1,4 @@
+import pickle
 import numpy as np
 from matplotlib import pyplot as plt
 from .analysis_report import AnalysisReport
@@ -83,6 +84,10 @@ def check_monotonicity(model, sample, feature, start, stop, steps=100):
     graphs : List
             List of all the figures created.
     '''
+    if type(model) == str:
+        with open(model, 'rb') as f:
+            model = pickle.load(f)
+            
     report = AnalysisReport()
     colValues = []
     predictions = []

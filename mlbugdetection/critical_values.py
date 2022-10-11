@@ -1,3 +1,4 @@
+import pickle
 import numpy as np
 from matplotlib import pyplot as plt
 import numpy as np
@@ -102,6 +103,10 @@ def find_critical_values(model, sample, feature : str, start, stop, steps=100, k
             List of all the figures created.
         
     '''
+    if type(model) == str:
+        with open(model, 'rb') as f:
+            model = pickle.load(f)
+            
     report = AnalysisReport()
     column_values = []
     predictions = []

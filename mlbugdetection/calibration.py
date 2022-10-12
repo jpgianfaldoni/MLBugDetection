@@ -10,8 +10,8 @@ def calibration_check(model, samples, target):
 
     Parameters
     ----------
-    model : sklearn model
-        The model to be used for prediction.
+    model : sklearn model or str 
+        The model to be used for prediction. Could be a model object or a path to a model file.
 
     samples : pandas DataFrame
         The samples to be used for prediction.

@@ -38,8 +38,8 @@ def check_monotonicity(model, sample, feature, start, stop, steps=100):
 
     Parameters
     ----------
-    model : sklearn model
-        Model that will be used to make predictions.
+    model : sklearn model or str
+        Model that will be used to make predictions. Could be a model object or a path to a model file.
 
     sample : pandas.DataFrame
         Pandas DataFrame containing one row that will be used as base point.

@@ -9,7 +9,6 @@ pip install mlbugdetection
 # Functions
 
 
-
 1. Monotonic:
     ```py
     from mlbugdetection.monotonic import monotonicity_mse, check_monotonicity
@@ -38,7 +37,7 @@ pip install mlbugdetection
     
     Usage:
     ```py
-    calibration_check(target_col, model, df)
+    calibration_check(model, samples, target)
     ```
 
 4. Sanity:
@@ -49,7 +48,7 @@ pip install mlbugdetection
     Usage:
 
     ```py
-    sanity_check(model, examples, target_column)
+    sanity_check(model, samples, target)
     ```
 
 

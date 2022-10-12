@@ -35,8 +35,8 @@ def find_critical_values(model, sample, feature : str, start, stop, steps=100, k
 
     Parameters
     ----------
-    model : sklearn model
-        Model already trained and tested from scikit-learn.
+    model : sklearn model or str
+        Model already trained and tested from scikit-learn. Could be a model object or a path to a model file.
 
     sample : pandas DataFrame
         A single row of the dataframe that will be used for the analysis.
@@ -166,8 +166,8 @@ def find_several_critical_values(model, samples, feature, start, stop, steps=100
 
     Parameters
     ----------
-    model : sklearn model
-        Model already trained and tested from scikit-learn.
+    model : sklearn model or str
+        Model already trained and tested from scikit-learn. Could be a model object or a path to a model file.
 
     samples : pandas DataFrame
         One or more rows of the dataframe that will be used for the analysis.
@@ -242,6 +242,10 @@ def find_several_critical_values(model, samples, feature, start, stop, steps=100
     graphs : List
         List of all the figures created.
     '''
+    if type(model) == str:
+        with open(model, 'rb') as f:
+            model = pickle.load(f)
+    
     samples = samples.copy()
     report = AnalysisReport()
     column_values = []

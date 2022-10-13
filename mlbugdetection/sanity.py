@@ -1,3 +1,4 @@
+import pickle
 import pandas as pd
 
 def sanity_check(model, samples, target):
@@ -7,8 +8,8 @@ def sanity_check(model, samples, target):
 
     Parameters
     ----------
-    model : sklearn model
-        The model to be used for prediction.
+    model : sklearn model or str
+        The model to be used for prediction. Could be a model object or a path to a model file.
 
     samples : pandas DataFrame
         The samples to be used for prediction, which the model
@@ -21,6 +22,10 @@ def sanity_check(model, samples, target):
     -------
     bool True if the model is sane, False otherwise.
     '''
+    if type(model) == str:
+        with open(model, 'rb') as f:
+            model = pickle.load(f)
+
     result = model.predict(samples.drop(target, axis=1))
     original = samples[target]
     values = (pd.Series(result) == original).value_counts().index

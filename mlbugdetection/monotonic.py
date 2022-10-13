@@ -1,3 +1,4 @@
+import pickle
 import numpy as np
 from matplotlib import pyplot as plt
 from .analysis_report import AnalysisReport
@@ -37,8 +38,8 @@ def check_monotonicity(model, sample, feature, start, stop, steps=100):
 
     Parameters
     ----------
-    model : sklearn model
-        Model that will be used to make predictions.
+    model : sklearn model or str
+        Model that will be used to make predictions. Could be a model object or a path to a model file.
 
     sample : pandas.DataFrame
         Pandas DataFrame containing one row that will be used as base point.
@@ -83,6 +84,10 @@ def check_monotonicity(model, sample, feature, start, stop, steps=100):
     graphs : List
             List of all the figures created.
     '''
+    if type(model) == str:
+        with open(model, 'rb') as f:
+            model = pickle.load(f)
+            
     report = AnalysisReport()
     colValues = []
     predictions = []

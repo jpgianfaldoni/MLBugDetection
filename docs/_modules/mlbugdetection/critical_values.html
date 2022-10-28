@@ -1,0 +1,423 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>mlbugdetection.critical_values &#8212; mlbugdetection  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/alabaster.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css" />
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for mlbugdetection.critical_values</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">pickle</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">.analysis_report</span> <span class="kn">import</span> <span class="n">AnalysisReport</span>
+
+<div class="viewcode-block" id="highest_and_lowest_indexes"><a class="viewcode-back" href="../../mlbugdetection.html#mlbugdetection.critical_values.highest_and_lowest_indexes">[docs]</a><span class="k">def</span> <span class="nf">highest_and_lowest_indexes</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">keep_n</span><span class="o">=</span><span class="mi">3</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Return indexes of highest changes (positive or negative) </span>
+<span class="sd">       in predictions </span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    predictions : list</span>
+<span class="sd">        Array that contains predictions to be analysed</span>
+
+<span class="sd">    keep_n : int</span>
+<span class="sd">        Number of values that are to be keeped in each list</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">dy</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">predictions</span><span class="p">))</span>
+    <span class="n">negatives</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="p">(</span><span class="n">x</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">),</span> <span class="n">dy</span><span class="p">))</span>
+    <span class="n">positives</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="p">(</span><span class="n">x</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">),</span> <span class="n">dy</span><span class="p">))</span>
+    
+    <span class="n">highest_positives</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">positives</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)[:</span><span class="n">keep_n</span><span class="p">]</span>
+    <span class="n">lowest_negatives</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">negatives</span><span class="p">)[:</span><span class="n">keep_n</span><span class="p">]</span>
+
+    <span class="n">highest_indexes</span> <span class="o">=</span> <span class="p">[[</span><span class="n">dy</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">dy</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">highest_positives</span><span class="p">]</span>
+    <span class="n">lowest_indexes</span>  <span class="o">=</span> <span class="p">[[</span><span class="n">dy</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">dy</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">lowest_negatives</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">highest_indexes</span><span class="p">,</span> <span class="n">lowest_indexes</span></div>
+
+<div class="viewcode-block" id="find_critical_values"><a class="viewcode-back" href="../../mlbugdetection.html#mlbugdetection.critical_values.find_critical_values">[docs]</a><span class="k">def</span> <span class="nf">find_critical_values</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">sample</span><span class="p">,</span> <span class="n">feature</span> <span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">,</span> <span class="n">steps</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">keep_n</span><span class="o">=</span><span class="mi">3</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Critical Values Finder</span>
+<span class="sd">        Finds highest changes (positive or negative) in predict_proba </span>
+<span class="sd">        over an specified inteval [`start`, `stop`].</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    model : sklearn model or str</span>
+<span class="sd">        Model already trained and tested from scikit-learn. Could be a model object or a path to a model file.</span>
+
+<span class="sd">    sample : pandas DataFrame</span>
+<span class="sd">        A single row of the dataframe that will be used for the analysis.</span>
+
+<span class="sd">    feature : str</span>
+<span class="sd">        Feature of dataframe that will be analysed.</span>
+<span class="sd">    </span>
+<span class="sd">    start : int</span>
+<span class="sd">        The starting value of the feature&#39;s interval.</span>
+<span class="sd">    </span>
+<span class="sd">    stop : int</span>
+<span class="sd">        The end value of the feature&#39;s interval.</span>
+<span class="sd">    </span>
+<span class="sd">    steps : int, default=100</span>
+<span class="sd">        Number of values that will be atributed to the analysed feature. Must be non-negative.</span>
+
+<span class="sd">    keep_n : int, default=3</span>
+<span class="sd">        Number of values that are to be keeped in each list</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    AnalysisReport object with following attributes:</span>
+<span class="sd">        For more information:</span>
+<span class="sd">        &gt;&gt;&gt; from mlbugdetection.analysis_report import AnalysisReport</span>
+<span class="sd">        &gt;&gt;&gt; help(AnalysisReport)</span>
+
+<span class="sd">    model_name : str</span>
+<span class="sd">        Name of the model being analysed.</span>
+<span class="sd">    </span>
+<span class="sd">    analysed_feature : str</span>
+<span class="sd">        Name of the feature being analysed.</span>
+<span class="sd">    </span>
+<span class="sd">    feature_range : tuple</span>
+<span class="sd">        Range of values of the feature being analysed: (start, stop).</span>
+<span class="sd">    </span>
+<span class="sd">    metrics : dictionary</span>
+<span class="sd">        Dictionary with all the calculated metrics, such as:</span>
+<span class="sd">        </span>
+<span class="sd">        &#39;positive_changes_proba&#39; : List</span>
+<span class="sd">            List of feature ranges that resulted in the biggest positive </span>
+<span class="sd">            changes in the model`s prediction probability.</span>
+
+<span class="sd">         &#39;positive_changes_proba&#39; : List</span>
+<span class="sd">            List of biggest positive variations in the model`s prediction </span>
+<span class="sd">            probability.</span>
+<span class="sd">        </span>
+<span class="sd">        &#39;negative_changes_ranges&#39; : List</span>
+<span class="sd">            List of feature ranges that resulted in the biggest negative </span>
+<span class="sd">            changes in the model`s prediction probability.</span>
+
+<span class="sd">        &#39;negative_changes_proba&#39; : List</span>
+<span class="sd">            List of biggest negative variations in the model`s prediction </span>
+<span class="sd">            probability.</span>
+<span class="sd">        </span>
+<span class="sd">        &#39;classification_change_ranges&#39; : List</span>
+<span class="sd">            List of feature ranges that resulted in a change of the model`s </span>
+<span class="sd">            classification.</span>
+<span class="sd">        </span>
+<span class="sd">        &#39;classification_change_proba&#39; : List</span>
+<span class="sd">            List of prediction probability values before and after the </span>
+<span class="sd">            classification change.</span>
+
+<span class="sd">    graphs : List</span>
+<span class="sd">            List of all the figures created.</span>
+<span class="sd">        </span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">model</span><span class="p">)</span> <span class="o">==</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">model</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+            
+    <span class="n">report</span> <span class="o">=</span> <span class="n">AnalysisReport</span><span class="p">()</span>
+    <span class="n">column_values</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">predictions</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">range_</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">,</span> <span class="n">steps</span><span class="p">)</span>
+    <span class="n">report</span><span class="o">.</span><span class="n">model_name</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="n">model</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span>
+    <span class="n">report</span><span class="o">.</span><span class="n">analysed_feature</span><span class="o">=</span> <span class="n">feature</span>
+    <span class="n">report</span><span class="o">.</span><span class="n">feature_range</span> <span class="o">=</span> <span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">)</span>
+    <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">150</span><span class="p">)</span>
+    <span class="n">report</span><span class="o">.</span><span class="n">graphs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fig</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">range_</span><span class="p">:</span>
+        <span class="n">column_values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+        <span class="n">sample</span><span class="p">[</span><span class="n">feature</span><span class="p">]</span> <span class="o">=</span> <span class="n">val</span>
+        <span class="n">predictions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">sample</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+
+    <span class="n">highest_positives</span><span class="p">,</span> <span class="n">lowest_negatives</span> <span class="o">=</span> <span class="n">highest_and_lowest_indexes</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">keep_n</span><span class="o">=</span><span class="n">keep_n</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">highest_positives</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">report</span><span class="o">.</span><span class="n">metrics</span><span class="p">[</span><span class="s2">&quot;positive_changes_ranges&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">report</span><span class="o">.</span><span class="n">metrics</span><span class="p">[</span><span class="s2">&quot;positive_changes_proba&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">indexes</span> <span class="ow">in</span> <span class="n">highest_positives</span><span class="p">:</span>
+            <span class="n">range0</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">column_values</span><span class="p">[</span><span class="n">indexes</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span><span class="mi">3</span><span class="p">)</span>
+            <span class="n">range1</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">column_values</span><span class="p">[</span><span class="n">indexes</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span><span class="mi">3</span><span class="p">)</span>
+            <span class="n">pred0</span> <span class="o">=</span> <span class="n">predictions</span><span class="p">[</span><span class="n">indexes</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+            <span class="n">pred1</span> <span class="o">=</span> <span class="n">predictions</span><span class="p">[</span><span class="n">indexes</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span>
+            <span class="n">report</span><span class="o">.</span><span class="n">metrics</span><span class="p">[</span><span class="s2">&quot;positive_changes_ranges&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">range0</span><span class="p">,</span><span class="n">range1</span><span class="p">))</span>
+            <span class="n">report</span><span class="o">.</span><span class="n">metrics</span><span class="p">[</span><span class="s2">&quot;positive_changes_proba&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">pred1</span><span class="p">,</span><span class="n">pred0</span><span class="p">))</span>
+            <span class="k">if</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">pred0</span><span class="p">,</span> <span class="n">pred1</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mf">0.5</span> <span class="ow">and</span> <span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">pred0</span><span class="p">,</span> <span class="n">pred1</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">0.5</span> <span class="p">)):</span>
+                <span class="n">report</span><span class="o">.</span><span class="n">metrics</span><span class="p">[</span><span class="s2">&quot;classification_change_ranges&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">range0</span><span class="p">,</span><span class="n">range1</span><span class="p">))</span>
+                <span class="n">report</span><span class="o">.</span><span class="n">metrics</span><span class="p">[</span><span class="s2">&quot;classification_change_proba&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">pred1</span><span class="p">,</span><span class="n">pred0</span><span class="p">))</span>
+                <span class="n">plt</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="n">range0</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;g&#39;</span><span class="p">,</span> <span class="n">linestyle</span> <span class="o">=</span> <span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">)</span>
+                <span class="n">plt</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="n">range1</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;g&#39;</span><span class="p">,</span> <span class="n">linestyle</span> <span class="o">=</span> <span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">lowest_negatives</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">report</span><span class="o">.</span><span class="n">metrics</span><span class="p">[</span><span class="s2">&quot;negative_changes_ranges&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">report</span><span class="o">.</span><span class="n">metrics</span><span class="p">[</span><span class="s2">&quot;negative_changes_proba&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">indexes</span> <span class="ow">in</span> <span class="n">lowest_negatives</span><span class="p">:</span>
+            <span class="n">range0</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">column_values</span><span class="p">[</span><span class="n">indexes</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span><span class="mi">3</span><span class="p">)</span>
+            <span class="n">range1</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">column_values</span><span class="p">[</span><span class="n">indexes</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span><span class="mi">3</span><span class="p">)</span>
+            <span class="n">pred0</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">predictions</span><span class="p">[</span><span class="n">indexes</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span> <span class="mi">3</span><span class="p">)</span>
+            <span class="n">pred1</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">predictions</span><span class="p">[</span><span class="n">indexes</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span> <span class="mi">3</span><span class="p">)</span>
+            <span class="n">report</span><span class="o">.</span><span class="n">metrics</span><span class="p">[</span><span class="s2">&quot;negative_changes_ranges&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">range0</span><span class="p">,</span><span class="n">range1</span><span class="p">))</span>
+            <span class="n">report</span><span class="o">.</span><span class="n">metrics</span><span class="p">[</span><span class="s2">&quot;negative_changes_proba&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">pred1</span><span class="p">,</span><span class="n">pred0</span><span class="p">))</span>
+            <span class="k">if</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">pred0</span><span class="p">,</span> <span class="n">pred1</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mf">0.5</span> <span class="ow">and</span> <span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">pred0</span><span class="p">,</span> <span class="n">pred1</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">0.5</span> <span class="p">)):</span>
+                <span class="n">plt</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="n">range0</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">linestyle</span> <span class="o">=</span> <span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.2</span><span class="p">)</span>
+                <span class="n">plt</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="n">range1</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">linestyle</span> <span class="o">=</span> <span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.2</span><span class="p">)</span>
+    <span class="k">if</span> <span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">lowest_negatives</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">highest_positives</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)):</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">column_values</span><span class="p">,</span> <span class="n">predictions</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">model</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Feature </span><span class="si">{</span><span class="n">feature</span><span class="si">}</span><span class="s1"> value&#39;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Predict proba&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">report</span></div>
+
+
+<div class="viewcode-block" id="find_several_critical_values"><a class="viewcode-back" href="../../mlbugdetection.html#mlbugdetection.critical_values.find_several_critical_values">[docs]</a><span class="k">def</span> <span class="nf">find_several_critical_values</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">samples</span><span class="p">,</span> <span class="n">feature</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">,</span> <span class="n">steps</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">keep_n</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Critical Values Finder in Several Samples</span>
+<span class="sd">        Finds mean, median, standard deviation, variation of the critical values</span>
+<span class="sd">        found in the samples over an specified inteval [`start`, `stop`].</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    model : sklearn model or str</span>
+<span class="sd">        Model already trained and tested from scikit-learn. Could be a model object or a path to a model file.</span>
+
+<span class="sd">    samples : pandas DataFrame</span>
+<span class="sd">        One or more rows of the dataframe that will be used for the analysis.</span>
+
+<span class="sd">    feature : str</span>
+<span class="sd">        Feature of dataframe that will be analysed.</span>
+<span class="sd">    </span>
+<span class="sd">    start : int</span>
+<span class="sd">        The starting value of the feature&#39;s interval.</span>
+<span class="sd">    </span>
+<span class="sd">    stop : int</span>
+<span class="sd">        The end value of the feature&#39;s interval.</span>
+<span class="sd">    </span>
+<span class="sd">    steps : int, default=100</span>
+<span class="sd">        Number of samples to generate. Must be non-negative.</span>
+
+<span class="sd">    bins : int, default=15</span>
+<span class="sd">        It defines the number of equal-width bins in the range.</span>
+
+<span class="sd">    keep_n : int, default=5</span>
+<span class="sd">        Number of the highest values to use for mean, median, std, var calculation.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    AnalysisReport object with following attributes:</span>
+<span class="sd">        For more information:</span>
+<span class="sd">        &gt;&gt;&gt; from mlbugdetection.analysis_report import AnalysisReport</span>
+<span class="sd">        &gt;&gt;&gt; help(AnalysisReport)</span>
+
+<span class="sd">    model_name : str</span>
+<span class="sd">        Name of the model being analysed.</span>
+<span class="sd">    </span>
+<span class="sd">    analysed_feature : str</span>
+<span class="sd">        Name of the feature being analysed.</span>
+<span class="sd">    </span>
+<span class="sd">    feature_range : tuple</span>
+<span class="sd">        Range of values of the feature being analysed: (start, stop).</span>
+<span class="sd">    </span>
+<span class="sd">    metrics : dictionary</span>
+<span class="sd">        Dictionary with all the calculated metrics, such as:</span>
+
+<span class="sd">        &#39;positive_means&#39; : dictionary</span>
+<span class="sd">            Contains the following:</span>
+
+<span class="sd">            &#39;mean&#39; : float</span>
+<span class="sd">                Mean of the all the positive changes means</span>
+<span class="sd">        </span>
+<span class="sd">            &#39;median&#39; : float</span>
+<span class="sd">                Median of the all the positive changes means</span>
+<span class="sd">        </span>
+<span class="sd">            &#39;std&#39; : float</span>
+<span class="sd">                Standard Deviation of the all the positive changes means</span>
+<span class="sd">        </span>
+<span class="sd">            &#39;var&#39; : float</span>
+<span class="sd">                Variation of the all the positive changes means</span>
+<span class="sd">        </span>
+<span class="sd">        &#39;negative_means&#39; : dictionary</span>
+<span class="sd">            Contains the following:</span>
+
+<span class="sd">            &#39;mean&#39; : float</span>
+<span class="sd">                Mean of the all the negative changes means</span>
+<span class="sd">        </span>
+<span class="sd">            &#39;median&#39; : float</span>
+<span class="sd">                Median of the all the negative changes means</span>
+<span class="sd">        </span>
+<span class="sd">            &#39;std&#39; : float</span>
+<span class="sd">                Standard Deviation of the all the negative changes means</span>
+<span class="sd">        </span>
+<span class="sd">            &#39;var&#39; : float</span>
+<span class="sd">                Variation of the all the negative changes means</span>
+<span class="sd">        </span>
+<span class="sd">    graphs : List</span>
+<span class="sd">        List of all the figures created.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">model</span><span class="p">)</span> <span class="o">==</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">model</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+    
+    <span class="n">samples</span> <span class="o">=</span> <span class="n">samples</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">report</span> <span class="o">=</span> <span class="n">AnalysisReport</span><span class="p">()</span>
+    <span class="n">column_values</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">predictions</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">range_</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">,</span> <span class="n">steps</span><span class="p">)</span>
+    
+    <span class="n">report</span><span class="o">.</span><span class="n">model_name</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="n">model</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span>
+    <span class="n">report</span><span class="o">.</span><span class="n">analysed_feature</span> <span class="o">=</span> <span class="n">feature</span>
+    <span class="n">report</span><span class="o">.</span><span class="n">feature_range</span> <span class="o">=</span> <span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">)</span>
+
+    <span class="n">predictions_dict</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">samples</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+        <span class="n">predictions_dict</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;preds&quot;</span> <span class="p">:</span> <span class="p">[]</span>
+        <span class="p">}</span>
+    <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">range_</span><span class="p">:</span>
+        <span class="n">column_values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+        <span class="n">samples</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="n">feature</span><span class="p">]</span> <span class="o">=</span> <span class="n">val</span>
+        <span class="n">samples_predictions</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">samples</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">samples_predictions</span><span class="p">)):</span>
+            <span class="n">predictions_dict</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s2">&quot;preds&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">samples_predictions</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+
+    <span class="n">positive_means</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">negative_means</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">means</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">predictions_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="n">predictions_dict</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="s2">&quot;diff&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">predictions_dict</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="s2">&quot;preds&quot;</span><span class="p">]))</span>
+
+        <span class="n">predictions_dict</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="s2">&quot;positive_diffs&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="p">(</span><span class="n">x</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">),</span> <span class="n">predictions_dict</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="s2">&quot;diff&quot;</span><span class="p">]))</span>
+        <span class="n">predictions_dict</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="s2">&quot;negative_diffs&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="p">(</span><span class="n">x</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">),</span> <span class="n">predictions_dict</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="s2">&quot;diff&quot;</span><span class="p">]))</span>
+        
+        <span class="n">highest_positive_diffs</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">predictions_dict</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="s2">&quot;positive_diffs&quot;</span><span class="p">],</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)[:</span><span class="n">keep_n</span><span class="p">]</span>
+        <span class="n">highest_negative_diffs</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">predictions_dict</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="s2">&quot;negative_diffs&quot;</span><span class="p">])[:</span><span class="n">keep_n</span><span class="p">]</span>
+
+        <span class="n">positive_means</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">highest_positive_diffs</span><span class="p">)</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">highest_positive_diffs</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">negative_means</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">highest_negative_diffs</span><span class="p">)</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">highest_negative_diffs</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="mi">0</span><span class="p">)</span>
+        
+    <span class="n">report</span><span class="o">.</span><span class="n">metrics</span><span class="p">[</span><span class="s2">&quot;positive_means&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">report</span><span class="o">.</span><span class="n">metrics</span><span class="p">[</span><span class="s2">&quot;negative_means&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+    
+    <span class="n">report</span><span class="o">.</span><span class="n">metrics</span><span class="p">[</span><span class="s1">&#39;positive_means&#39;</span><span class="p">][</span><span class="s1">&#39;mean&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmean</span><span class="p">(</span><span class="n">positive_means</span><span class="p">)</span>
+    <span class="n">report</span><span class="o">.</span><span class="n">metrics</span><span class="p">[</span><span class="s1">&#39;positive_means&#39;</span><span class="p">][</span><span class="s1">&#39;median&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmedian</span><span class="p">(</span><span class="n">positive_means</span><span class="p">)</span>
+    <span class="n">report</span><span class="o">.</span><span class="n">metrics</span><span class="p">[</span><span class="s1">&#39;positive_means&#39;</span><span class="p">][</span><span class="s1">&#39;std&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nanstd</span><span class="p">(</span><span class="n">positive_means</span><span class="p">)</span>
+    <span class="n">report</span><span class="o">.</span><span class="n">metrics</span><span class="p">[</span><span class="s1">&#39;positive_means&#39;</span><span class="p">][</span><span class="s1">&#39;var&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nanvar</span><span class="p">(</span><span class="n">positive_means</span><span class="p">)</span>
+
+    <span class="n">report</span><span class="o">.</span><span class="n">metrics</span><span class="p">[</span><span class="s1">&#39;negative_means&#39;</span><span class="p">][</span><span class="s1">&#39;mean&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmean</span><span class="p">(</span><span class="n">negative_means</span><span class="p">)</span>
+    <span class="n">report</span><span class="o">.</span><span class="n">metrics</span><span class="p">[</span><span class="s1">&#39;negative_means&#39;</span><span class="p">][</span><span class="s1">&#39;median&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmedian</span><span class="p">(</span><span class="n">negative_means</span><span class="p">)</span>
+    <span class="n">report</span><span class="o">.</span><span class="n">metrics</span><span class="p">[</span><span class="s1">&#39;negative_means&#39;</span><span class="p">][</span><span class="s1">&#39;std&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nanstd</span><span class="p">(</span><span class="n">negative_means</span><span class="p">)</span>
+    <span class="n">report</span><span class="o">.</span><span class="n">metrics</span><span class="p">[</span><span class="s1">&#39;negative_means&#39;</span><span class="p">][</span><span class="s1">&#39;var&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nanvar</span><span class="p">(</span><span class="n">negative_means</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Positive means:&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">Mean: </span><span class="si">{</span><span class="n">report</span><span class="o">.</span><span class="n">metrics</span><span class="p">[</span><span class="s1">&#39;positive_means&#39;</span><span class="p">][</span><span class="s1">&#39;mean&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">Median: </span><span class="si">{</span><span class="n">report</span><span class="o">.</span><span class="n">metrics</span><span class="p">[</span><span class="s1">&#39;positive_means&#39;</span><span class="p">][</span><span class="s1">&#39;median&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">Standard Deviation: </span><span class="si">{</span><span class="n">report</span><span class="o">.</span><span class="n">metrics</span><span class="p">[</span><span class="s1">&#39;positive_means&#39;</span><span class="p">][</span><span class="s1">&#39;std&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">Variance: </span><span class="si">{</span><span class="n">report</span><span class="o">.</span><span class="n">metrics</span><span class="p">[</span><span class="s1">&#39;positive_means&#39;</span><span class="p">][</span><span class="s1">&#39;var&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Negative means:&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">Mean: </span><span class="si">{</span><span class="n">report</span><span class="o">.</span><span class="n">metrics</span><span class="p">[</span><span class="s1">&#39;negative_means&#39;</span><span class="p">][</span><span class="s1">&#39;mean&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">Median: </span><span class="si">{</span><span class="n">report</span><span class="o">.</span><span class="n">metrics</span><span class="p">[</span><span class="s1">&#39;negative_means&#39;</span><span class="p">][</span><span class="s1">&#39;median&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">Standard Deviation: </span><span class="si">{</span><span class="n">report</span><span class="o">.</span><span class="n">metrics</span><span class="p">[</span><span class="s1">&#39;negative_means&#39;</span><span class="p">][</span><span class="s1">&#39;std&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">Variance: </span><span class="si">{</span><span class="n">report</span><span class="o">.</span><span class="n">metrics</span><span class="p">[</span><span class="s1">&#39;negative_means&#39;</span><span class="p">][</span><span class="s1">&#39;var&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+
+    <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
+    <span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s2">&quot;Mean&quot;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s2">&quot;Frequency&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">positive_means</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="n">bins</span><span class="p">)</span>
+    <span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Histogram of positive means&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s2">&quot;Mean&quot;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s2">&quot;Frequency&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">negative_means</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="n">bins</span><span class="p">)</span>
+    <span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Histogram of negative means&quot;</span><span class="p">)</span>
+    <span class="n">report</span><span class="o">.</span><span class="n">graphs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fig</span><span class="p">)</span>
+    <span class="c1"># report.save_graphs()</span>
+    <span class="k">return</span> <span class="n">report</span></div>
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../index.html">mlbugdetection</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">mlbugdetection</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2022, Joao, William, Giovanni.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.5.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

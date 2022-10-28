@@ -1,0 +1,187 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>mlbugdetection.analysis_report &#8212; mlbugdetection  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/alabaster.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css" />
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for mlbugdetection.analysis_report</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">os</span>
+
+<div class="viewcode-block" id="AnalysisReport"><a class="viewcode-back" href="../../mlbugdetection.html#mlbugdetection.analysis_report.AnalysisReport">[docs]</a><span class="k">class</span> <span class="nc">AnalysisReport</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Analysis Report Class</span>
+<span class="sd">    All library functions returns a Analysis Report Object</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    model_name : str, default = &#39;&#39;</span>
+<span class="sd">        Name of the model being analysed.</span>
+<span class="sd">    </span>
+<span class="sd">    analysed_feature : str, default = &#39;&#39;</span>
+<span class="sd">        Name of the feature being analysed.</span>
+<span class="sd">    </span>
+<span class="sd">    feature_range : tuple, default = ()</span>
+<span class="sd">        Range of values of the feature being analysed: (start, stop).</span>
+<span class="sd">    </span>
+<span class="sd">    metrics : dictionary, default = {}</span>
+<span class="sd">        Dictionary with all the calculated metrics. </span>
+<span class="sd">        All the possible metrics that can be calculated are:</span>
+
+<span class="sd">        &#39;monotonic&#39; : bool</span>
+<span class="sd">             If the list of values is monotonic.</span>
+
+<span class="sd">        &#39;monotonic_score&#39;: float</span>
+<span class="sd">            MSE between the list of values and it`s closest monotonic aproximation.</span>
+
+<span class="sd">        &#39;positive_changes_ranges&#39; : List</span>
+<span class="sd">            List of feature ranges that resulted in the biggest positive changes in the model`s prediction probability.</span>
+<span class="sd">        </span>
+<span class="sd">        &#39;positive_changes_proba&#39; : List</span>
+<span class="sd">            List of biggest positive variations in the model`s prediction probability.</span>
+<span class="sd">        </span>
+<span class="sd">        &#39;negative_changes_ranges&#39; : List</span>
+<span class="sd">            List of feature ranges that resulted in the biggest negative changes in the model`s prediction probability.</span>
+
+<span class="sd">        &#39;negative_changes_proba&#39; : List</span>
+<span class="sd">            List of biggest negative variations in the model`s prediction probability.</span>
+<span class="sd">        </span>
+<span class="sd">        &#39;classification_change_ranges&#39; : List</span>
+<span class="sd">            List of feature ranges that resulted in a change of the model`s classification.</span>
+<span class="sd">        </span>
+<span class="sd">        &#39;classification_change_proba&#39; : List</span>
+<span class="sd">            List of prediction probability values before and after the classification change.</span>
+<span class="sd">        </span>
+<span class="sd">        &#39;positive_means&#39; : dictionary</span>
+<span class="sd">            Contains the following:</span>
+
+<span class="sd">                &#39;mean&#39; : float</span>
+<span class="sd">                    Mean of the all the positive changes means</span>
+<span class="sd">            </span>
+<span class="sd">                &#39;median&#39; : float</span>
+<span class="sd">                    Median of the all the positive changes means</span>
+<span class="sd">            </span>
+<span class="sd">                &#39;std&#39; : float</span>
+<span class="sd">                    Standard Deviation of the all the positive changes means</span>
+<span class="sd">            </span>
+<span class="sd">                &#39;var&#39; : float</span>
+<span class="sd">                    Variation of the all the positive changes means</span>
+
+<span class="sd">        </span>
+<span class="sd">        &#39;negative_means&#39; : dictionary</span>
+<span class="sd">            Same as &quot;positive_means&quot;, but for negative variations in the prediction probabilities.</span>
+<span class="sd">    </span>
+<span class="sd">    graphs : List, default = []</span>
+<span class="sd">        List of all the figures created.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model_name</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">analysed_feature</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">feature_range</span> <span class="o">=</span> <span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">metrics</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">graphs</span> <span class="o">=</span> <span class="p">[]</span>
+
+<div class="viewcode-block" id="AnalysisReport.save_graphs"><a class="viewcode-back" href="../../mlbugdetection.html#mlbugdetection.analysis_report.AnalysisReport.save_graphs">[docs]</a>    <span class="k">def</span> <span class="nf">save_graphs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="s2">&quot;imgs&quot;</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">graphs</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">graph</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">graphs</span><span class="p">:</span>
+                <span class="n">graph</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;imgs/</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">model_name</span><span class="si">}</span><span class="s1">_</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">analysed_feature</span><span class="si">}</span><span class="s1">_</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">feature_range</span><span class="si">}</span><span class="s1"> &#39;</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span> 
+
+        <span class="sd">&quot;&quot;&quot;Saves all figures contained on the &#39;graphs&#39; parameter on a folder called &#39;imgs&#39;.</span>
+<span class="sd">        If the folder does not exists, it will be created automatically.</span>
+<span class="sd">        &quot;&quot;&quot;</span></div></div>
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../index.html">mlbugdetection</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">mlbugdetection</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2022, Joao, William, Giovanni.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.5.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

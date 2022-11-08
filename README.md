@@ -25,8 +25,14 @@ pip install mlbugdetection
     ```
     
     Usage:
+    For 1 sample
     ```py
     find_critical_values(model, sample, feature, start, stop, step=100)
+    ```
+
+    For more than 1 sample:
+    ```py
+    find_several_critical_values(model, samples, feature, start, stop, steps=100, bins=15, keep_n=5)
     ```
 
 
@@ -49,6 +55,11 @@ pip install mlbugdetection
 
     ```py
     sanity_check(model, samples, target)
+    ```
+
+    If test don't pass, check the indexes
+    ```py
+    sanity_check_with_indexes(model, samples, target)
     ```
 
 

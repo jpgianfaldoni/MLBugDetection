@@ -6,6 +6,9 @@
 
 Most machine learning explainability packages requires both trained models and the training data to create Explainer objects that explain the model's behavior. This package allows ceteris paribus analysis of features using only the trained model and one or more input samples.
 
+## Documentation
+
+https://jpgianfaldoni.github.io/MLBugDetection/
 
 Instalation: 
 

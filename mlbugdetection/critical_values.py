@@ -52,6 +52,8 @@ def find_critical_values(model, sample, feature : str, start, stop, steps=100, k
     
     steps : int, default=100
         Number of values that will be atributed to the analysed feature. Must be non-negative.
+        Example: start = 1, stop = 100, steps = 100, will result in 100 values from 1 to 100 (1,2,3,4,5,6,...).
+
 
     keep_n : int, default=3
         Number of values that are to be keeped in each list
@@ -183,6 +185,8 @@ def find_several_critical_values(model, samples, feature, start, stop, steps=100
     
     steps : int, default=100
         Number of samples to generate. Must be non-negative.
+        Example: start = 1, stop = 100, steps = 100, will result in 100 values from 1 to 100 (1,2,3,4,5,6,...).
+
 
     bins : int, default=15
         It defines the number of equal-width bins in the range.

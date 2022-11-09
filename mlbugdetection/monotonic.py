@@ -56,6 +56,7 @@ def check_monotonicity_single_sample(model, sample, feature, start, stop, steps=
 
     steps : int, default=100
         Number of values that will be atributed to the analysed feature between the start and stop interval. Must be non-negative.
+        Example: start = 1, stop = 100, steps = 100, will result in 100 values from 1 to 100 (1,2,3,4,5,6,...).
 
     Returns
     -------

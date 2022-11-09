@@ -58,10 +58,15 @@ class AnalysisReport:
             
                 'var' : float
                     Variation of the all the positive changes means
-
         
         'negative_means' : dictionary
             Same as "positive_means", but for negative variations in the prediction probabilities.
+        
+        'sanity' : bool
+            If the model is sane or not.
+    
+        'sanity_indexes' : List
+            List of indexes of the samples that were misclassified.
     
     graphs : List, default = []
         List of all the figures created.

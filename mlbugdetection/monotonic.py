@@ -119,7 +119,7 @@ def check_monotonicity_single_sample(model, sample, feature, start, stop, steps=
         plt.plot(colValues, monotonic_curve, linestyle='dashed', color='red', alpha=0.7, label="Monotonic Approximation")
     plt.plot(colValues, predictions, color='blue', alpha=0.7, label="Predictions Curve")
     plt.title(f"Model: {type(model).__name__}")
-    plt.xlabel('Feature value')
+    plt.xlabel(f'Feature {feature} value')
     plt.ylabel('Predict proba')
     plt.legend(loc="lower right")
     return report
@@ -214,7 +214,7 @@ def check_monotonicity_multiple_samples(model, sample, feature, start, stop, ste
     report.metrics["monotonic_means_std"] = np.nanstd(predictions)
     plt.plot(colValues, predictions, color='blue', alpha=0.7, label="Predictions Curve")
     plt.title(f"Model: {type(model).__name__}")
-    plt.xlabel('Feature value')
+    plt.xlabel(f'Feature {feature} value')
     plt.ylabel('Predict proba')
     plt.legend(loc="lower right")
     return report

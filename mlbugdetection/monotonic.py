@@ -113,7 +113,7 @@ def check_monotonicity(model, sample, feature, start, stop, steps=100):
         plt.plot(colValues, monotonic_curve, linestyle='dashed', color='red', alpha=0.7, label="Monotonic Approximation")
     plt.plot(colValues, predictions, color='blue', alpha=0.7, label="Predictions Curve")
     plt.title(f"Model: {type(model).__name__}")
-    plt.xlabel('Feature value')
+    plt.xlabel(f'Feature {feature} value')
     plt.ylabel('Predict proba')
     plt.legend(loc="lower right")
     return report

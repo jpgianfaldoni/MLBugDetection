@@ -1,5 +1,7 @@
 # MLBugDetection
 
+# Python library for machine learning explainability and unexpectated behaviors detection
+
 Instalation: 
 
 ```bash

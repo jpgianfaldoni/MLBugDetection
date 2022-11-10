@@ -105,10 +105,13 @@ def find_critical_values(model, sample, feature : str, start, stop, steps=100, k
             List of all the figures created.
         
     '''
+    if len(sample) > 1:
+        raise Exception("Sample must have only one example, please use 'find_several_critical_values' for multiple samples")
+                
     if type(model) == str:
         with open(model, 'rb') as f:
             model = pickle.load(f)
-            
+
     report = AnalysisReport()
     column_values = []
     predictions = []
@@ -172,7 +175,7 @@ def find_several_critical_values(model, samples, feature, start, stop, steps=100
         Model already trained and tested from scikit-learn. Could be a model object or a path to a model file.
 
     samples : pandas DataFrame
-        One or more rows of the dataframe that will be used for the analysis.
+        Two or more rows of the dataframe that will be used for the analysis.
 
     feature : str
         Feature of dataframe that will be analysed.
@@ -246,6 +249,9 @@ def find_several_critical_values(model, samples, feature, start, stop, steps=100
     graphs : List
         List of all the figures created.
     '''
+    if len(samples) < 2:
+        raise Exception("Sample must have multiple examples, please use 'find_critical_values' for single example")
+    
     if type(model) == str:
         with open(model, 'rb') as f:
             model = pickle.load(f)

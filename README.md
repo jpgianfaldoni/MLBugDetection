@@ -21,13 +21,13 @@ pip install mlbugdetection
 
 1. Monotonic:
     ```py
-    from mlbugdetection.monotonic import check_monotonicity, check_monotonicity_multiple_samples
+    from mlbugdetection.monotonic import check_monotonicity_single_sample, check_monotonicity_multiple_samples
     ```
 
     Usage:
     For 1 sample
     ```py
-    check_monotonicity(model, sample, feature, start, stop, steps=100)
+    check_monotonicity_single_sample(model, sample, feature, start, stop, steps=100)
     ```
     
     For more than 1 sample:

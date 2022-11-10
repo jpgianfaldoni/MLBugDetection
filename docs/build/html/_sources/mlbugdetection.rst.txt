@@ -1,9 +1,3 @@
-mlbugdetection package
-======================
-
-Submodules
-----------
-
 mlbugdetection.analysis\_report module
 --------------------------------------
 
@@ -44,10 +38,3 @@ mlbugdetection.sanity module
    :undoc-members:
    :show-inheritance:
 
-Module contents
----------------
-
-.. automodule:: mlbugdetection
-   :members:
-   :undoc-members:
-   :show-inheritance:

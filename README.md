@@ -1,6 +1,6 @@
 # MLBugDetection
 
-#Machine learning explainability and unexpectated behaviors detection
+### Machine learning explainability and unexpectated behaviors detection
 
 ## Overview
 
@@ -16,12 +16,12 @@ Instalation:
 pip install mlbugdetection
 ```
 
-# Functions
+## Functions
 
 
 1. Monotonic:
     ```py
-    from mlbugdetection.monotonic import monotonicity_mse, check_monotonicity
+    from mlbugdetection.monotonic import check_monotonicity, check_monotonicity_multiple_samples
     ```
 
     Usage:
@@ -31,7 +31,7 @@ pip install mlbugdetection
     ```
     
     For more than 1 sample:
-    ```
+    ```py
     check_monotonicity_multiple_samples(model, sample, feature, start, stop, steps=100) 
     ```
     
@@ -39,7 +39,7 @@ pip install mlbugdetection
 
 2. Critical Values:
     ```py
-    from mlbugdetection.critical_values import find_critical_values, highest_and_lowest_indexes
+    from mlbugdetection.critical_values import find_critical_values, find_several_critical_values
     ```
     
     Usage:
@@ -66,7 +66,7 @@ pip install mlbugdetection
 
 4. Sanity:
     ```py
-    from mlbugdetection.sanity import sanity_check
+    from mlbugdetection.sanity import sanity_check, sanity_check_with_indexes
     ```
 
     Usage:

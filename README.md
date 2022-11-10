@@ -25,9 +25,17 @@ pip install mlbugdetection
     ```
 
     Usage:
+    For 1 sample
     ```py
     check_monotonicity(model, sample, feature, start, stop, steps=100)
     ```
+    
+    For more than 1 sample:
+    ```
+    check_monotonicity_multiple_samples(model, sample, feature, start, stop, steps=100) 
+    ```
+    
+    
 
 2. Critical Values:
     ```py
@@ -67,7 +75,7 @@ pip install mlbugdetection
     sanity_check(model, samples, target)
     ```
 
-    If test don't pass, check the indexes
+    If test not pass, check the indexes
     ```py
     sanity_check_with_indexes(model, samples, target)
     ```

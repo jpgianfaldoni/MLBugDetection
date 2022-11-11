@@ -52,6 +52,8 @@ def find_critical_values(model, sample, feature : str, start : int, stop : int, 
     
     steps : int, default=100
         Number of values that will be atributed to the analysed feature. Must be non-negative.
+        Example: start = 1, stop = 100, steps = 100, will result in 100 values from 1 to 100 (1,2,3,4,5,6,...).
+
 
     keep_n : int, default=3
         Number of values that are to be keeped in each list
@@ -103,10 +105,13 @@ def find_critical_values(model, sample, feature : str, start : int, stop : int, 
             List of all the figures created.
         
     '''
+    if len(sample) > 1:
+        raise Exception("Sample must have only one example, please use 'find_several_critical_values' for multiple samples")
+                
     if type(model) == str:
         with open(model, 'rb') as f:
             model = pickle.load(f)
-            
+
     report = AnalysisReport()
     column_values = []
     predictions = []
@@ -184,7 +189,7 @@ def find_several_critical_values(model, samples, feature : str, start : int, sto
         Model already trained and tested from scikit-learn. Could be a model object or a path to a model file.
 
     samples : pandas DataFrame
-        One or more rows of the dataframe that will be used for the analysis.
+        Two or more rows of the dataframe that will be used for the analysis.
 
     feature : str
         Feature of dataframe that will be analysed.
@@ -197,6 +202,8 @@ def find_several_critical_values(model, samples, feature : str, start : int, sto
     
     steps : int, default=100
         Number of samples to generate. Must be non-negative.
+        Example: start = 1, stop = 100, steps = 100, will result in 100 values from 1 to 100 (1,2,3,4,5,6,...).
+
 
     bins : int, default=15
         It defines the number of equal-width bins in the range.
@@ -260,6 +267,9 @@ def find_several_critical_values(model, samples, feature : str, start : int, sto
     graphs : List
         List of all the figures created.
     '''
+    if len(samples) < 2:
+        raise Exception("Sample must have multiple examples, please use 'find_critical_values' for single example")
+    
     if type(model) == str:
         with open(model, 'rb') as f:
             model = pickle.load(f)

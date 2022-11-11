@@ -35,7 +35,6 @@ pip install mlbugdetection
     check_monotonicity_multiple_samples(model, sample, feature, start, stop, steps=100) 
     ```
     
-    
 
 2. Critical Values:
     ```py

@@ -339,7 +339,7 @@ def find_several_critical_values(model, samples, feature : str, start : int, sto
     ax[0].hist(positive_means, bins=bins, log=log)
     ax[0].set_title("Histogram of positive means")
     ax[1].set(xlabel="Mean", ylabel="Frequency")
-    ax[1].hist(negative_means, bins=bins)
+    ax[1].hist(negative_means, bins=bins, log=log)
     ax[1].set_title("Histogram of negative means")
     report.graphs.append(fig)
     # report.save_graphs()

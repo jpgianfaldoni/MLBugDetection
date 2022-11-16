@@ -4,7 +4,7 @@ from matplotlib import pyplot as plt
 import numpy as np
 from .analysis_report import AnalysisReport
 
-def highest_and_lowest_indexes(predictions, keep_n=3):
+def highest_and_lowest_indexes(predictions : list, keep_n : int = 3):
     '''Return indexes of highest changes (positive or negative) 
        in predictions 
 
@@ -28,7 +28,7 @@ def highest_and_lowest_indexes(predictions, keep_n=3):
 
     return highest_indexes, lowest_indexes
 
-def find_critical_values(model, sample, feature : str, start, stop, steps=100, keep_n=3):
+def find_critical_values(model, sample, feature : str, start : int, stop : int, steps : int = 100, keep_n : int = 3):
     '''Critical Values Finder
         Finds highest changes (positive or negative) in predict_proba 
         over an specified inteval [`start`, `stop`].
@@ -52,6 +52,8 @@ def find_critical_values(model, sample, feature : str, start, stop, steps=100, k
     
     steps : int, default=100
         Number of values that will be atributed to the analysed feature. Must be non-negative.
+        Example: start = 1, stop = 100, steps = 100, will result in 100 values from 1 to 100 (1,2,3,4,5,6,...).
+
 
     keep_n : int, default=3
         Number of values that are to be keeped in each list
@@ -103,10 +105,13 @@ def find_critical_values(model, sample, feature : str, start, stop, steps=100, k
             List of all the figures created.
         
     '''
+    if len(sample) > 1:
+        raise Exception("Sample must have only one example, please use 'find_several_critical_values' for multiple samples")
+                
     if type(model) == str:
         with open(model, 'rb') as f:
             model = pickle.load(f)
-            
+
     report = AnalysisReport()
     column_values = []
     predictions = []
@@ -120,37 +125,51 @@ def find_critical_values(model, sample, feature : str, start, stop, steps=100, k
     for val in range_:
         column_values.append(val)
         sample[feature] = val
-        predictions.append(model.predict_proba(sample)[0][0])
+        predictions.append(model.predict_proba(sample)[0][1])
 
     highest_positives, lowest_negatives = highest_and_lowest_indexes(predictions, keep_n=keep_n)
     if len(highest_positives) > 0:
-        report.metrics["positive_changes_ranges"] = []
-        report.metrics["positive_changes_proba"] = []
+        report.metrics["positive_changes"] = {}  
+        report.metrics["classification_change"] = {}  
+
+        change_count = 0
         for indexes in highest_positives:
             range0 = round(column_values[indexes[0]],3)
             range1 = round(column_values[indexes[1]],3)
-            pred0 = predictions[indexes[0]]
-            pred1 = predictions[indexes[1]]
-            report.metrics["positive_changes_ranges"].append((range0,range1))
-            report.metrics["positive_changes_proba"].append((pred1,pred0))
+            pred0 = round(predictions[indexes[0]],3)
+            pred1 = round(predictions[indexes[1]],3)
+            report.metrics["positive_changes"][change_count] = {}
+            report.metrics["positive_changes"][change_count]["ranges"] = (range0,range1)
+            report.metrics["positive_changes"][change_count]["proba"] = (pred0,pred1)
             if(max(pred0, pred1) >= 0.5 and (min(pred0, pred1) < 0.5 )):
-                report.metrics["classification_change_ranges"].append((range0,range1))
-                report.metrics["classification_change_proba"].append((pred1,pred0))
+                report.metrics["classification_change"][change_count] = {}
+                report.metrics["classification_change"][change_count]["ranges"] = (range0,range1)
+                report.metrics["classification_change"][change_count]["proba"] = (pred0,pred1)
                 plt.axvline(x = range0, color = 'g', linestyle = '--', alpha = 0.5)
                 plt.axvline(x = range1, color = 'g', linestyle = '--', alpha = 0.5)
+            
+            change_count += 1
     if len(lowest_negatives) > 0:
-        report.metrics["negative_changes_ranges"] = []
-        report.metrics["negative_changes_proba"] = []
+        report.metrics["negative_changes"] = {}  
+        report.metrics["classification_change"] = {}  
+
+        change_count = 0
         for indexes in lowest_negatives:
             range0 = round(column_values[indexes[0]],3)
             range1 = round(column_values[indexes[1]],3)
-            pred0 = round(predictions[indexes[0]], 3)
-            pred1 = round(predictions[indexes[1]], 3)
-            report.metrics["negative_changes_ranges"].append((range0,range1))
-            report.metrics["negative_changes_proba"].append((pred1,pred0))
+            pred0 = round(predictions[indexes[0]],3)
+            pred1 = round(predictions[indexes[1]],3)
+            
+            report.metrics["negative_changes"][change_count] = {}
+            report.metrics["negative_changes"][change_count]["ranges"] = (range0,range1)
+            report.metrics["negative_changes"][change_count]["proba"] = (pred0,pred1)
             if(max(pred0, pred1) >= 0.5 and (min(pred0, pred1) < 0.5 )):
+                report.metrics["classification_change"][change_count] = {}
+                report.metrics["classification_change"][change_count]["ranges"] = (range0,range1)
+                report.metrics["classification_change"][change_count]["proba"] = (pred0,pred1)
                 plt.axvline(x = range0, color = 'r', linestyle = '--', alpha = 0.2)
                 plt.axvline(x = range1, color = 'r', linestyle = '--', alpha = 0.2)
+            change_count += 1
     if ((len(lowest_negatives) > 0) or (len(highest_positives) > 0)):
         plt.plot(column_values, predictions)
         plt.title(type(model).__name__)
@@ -159,7 +178,7 @@ def find_critical_values(model, sample, feature : str, start, stop, steps=100, k
     return report
 
 
-def find_several_critical_values(model, samples, feature, start, stop, steps=100, bins=15, keep_n=5):
+def find_several_critical_values(model, samples, feature : str, start : int, stop : int, steps : int = 100, bins : int = 15, keep_n : int = 5, log : bool = False):
     '''Critical Values Finder in Several Samples
         Finds mean, median, standard deviation, variation of the critical values
         found in the samples over an specified inteval [`start`, `stop`].
@@ -170,7 +189,7 @@ def find_several_critical_values(model, samples, feature, start, stop, steps=100
         Model already trained and tested from scikit-learn. Could be a model object or a path to a model file.
 
     samples : pandas DataFrame
-        One or more rows of the dataframe that will be used for the analysis.
+        Two or more rows of the dataframe that will be used for the analysis.
 
     feature : str
         Feature of dataframe that will be analysed.
@@ -183,12 +202,17 @@ def find_several_critical_values(model, samples, feature, start, stop, steps=100
     
     steps : int, default=100
         Number of samples to generate. Must be non-negative.
+        Example: start = 1, stop = 100, steps = 100, will result in 100 values from 1 to 100 (1,2,3,4,5,6,...).
+
 
     bins : int, default=15
         It defines the number of equal-width bins in the range.
 
     keep_n : int, default=5
         Number of the highest values to use for mean, median, std, var calculation.
+
+    log : bool, default=False
+        If True, the histogram axis will be set to a log scale.
 
     Returns
     -------
@@ -238,10 +262,14 @@ def find_several_critical_values(model, samples, feature, start, stop, steps=100
         
             'var' : float
                 Variation of the all the negative changes means
+
         
     graphs : List
         List of all the figures created.
     '''
+    if len(samples) < 2:
+        raise Exception("Sample must have multiple examples, please use 'find_critical_values' for single example")
+    
     if type(model) == str:
         with open(model, 'rb') as f:
             model = pickle.load(f)
@@ -255,6 +283,7 @@ def find_several_critical_values(model, samples, feature, start, stop, steps=100
     report.model_name = type(model).__name__
     report.analysed_feature = feature
     report.feature_range = (start, stop)
+    report.metrics["critical_indexes"] = []
 
     predictions_dict = {}
     for i in range(samples.shape[0]):
@@ -266,7 +295,7 @@ def find_several_critical_values(model, samples, feature, start, stop, steps=100
         samples.loc[:, feature] = val
         samples_predictions = model.predict_proba(samples)
         for i in range(len(samples_predictions)):
-            predictions_dict[i]["preds"].append(samples_predictions[i][0])
+            predictions_dict[i]["preds"].append(samples_predictions[i][1])
 
     positive_means = []
     negative_means = []
@@ -276,7 +305,13 @@ def find_several_critical_values(model, samples, feature, start, stop, steps=100
 
         predictions_dict[key]["positive_diffs"] = list(filter(lambda x: (x > 0), predictions_dict[key]["diff"]))
         predictions_dict[key]["negative_diffs"] = list(filter(lambda x: (x <= 0), predictions_dict[key]["diff"]))
-        
+
+        previous_prediction = predictions_dict[key]["preds"][0]
+        for pred in predictions_dict[key]["preds"]:
+            if (max(previous_prediction, pred) >= 0.5 and (min(previous_prediction, pred) < 0.5 )):
+                report.metrics["critical_indexes"].append(key)
+            previous_prediction = pred
+
         highest_positive_diffs = sorted(predictions_dict[key]["positive_diffs"], reverse=True)[:keep_n]
         highest_negative_diffs = sorted(predictions_dict[key]["negative_diffs"])[:keep_n]
 
@@ -311,10 +346,10 @@ def find_several_critical_values(model, samples, feature, start, stop, steps=100
 
     fig, ax= plt.subplots(1,2, figsize=(16,4))
     ax[0].set(xlabel="Mean", ylabel="Frequency")
-    ax[0].hist(positive_means, bins=bins)
+    ax[0].hist(positive_means, bins=bins, log=log)
     ax[0].set_title("Histogram of positive means")
     ax[1].set(xlabel="Mean", ylabel="Frequency")
-    ax[1].hist(negative_means, bins=bins)
+    ax[1].hist(negative_means, bins=bins, log=log)
     ax[1].set_title("Histogram of negative means")
     report.graphs.append(fig)
     # report.save_graphs()

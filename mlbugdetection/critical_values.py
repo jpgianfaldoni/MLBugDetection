@@ -331,17 +331,17 @@ def find_several_critical_values(model, samples, feature : str, start : int, sto
     report.metrics['negative_means']['std'] = np.nanstd(negative_means)
     report.metrics['negative_means']['var'] = np.nanvar(negative_means)
 
-    print("Positive means:")
-    print(f"\tMean: {report.metrics['positive_means']['mean']}")
-    print(f"\tMedian: {report.metrics['positive_means']['median']}")
-    print(f"\tStandard Deviation: {report.metrics['positive_means']['std']}")
-    print(f"\tVariance: {report.metrics['positive_means']['var']}")
+    # print("Positive means:")
+    # print(f"\tMean: {report.metrics['positive_means']['mean']}")
+    # print(f"\tMedian: {report.metrics['positive_means']['median']}")
+    # print(f"\tStandard Deviation: {report.metrics['positive_means']['std']}")
+    # print(f"\tVariance: {report.metrics['positive_means']['var']}")
 
-    print("Negative means:")
-    print(f"\tMean: {report.metrics['negative_means']['mean']}")
-    print(f"\tMedian: {report.metrics['negative_means']['median']}")
-    print(f"\tStandard Deviation: {report.metrics['negative_means']['std']}")
-    print(f"\tVariance: {report.metrics['negative_means']['var']}")
+    # print("Negative means:")
+    # print(f"\tMean: {report.metrics['negative_means']['mean']}")
+    # print(f"\tMedian: {report.metrics['negative_means']['median']}")
+    # print(f"\tStandard Deviation: {report.metrics['negative_means']['std']}")
+    # print(f"\tVariance: {report.metrics['negative_means']['var']}")
 
 
     fig, ax= plt.subplots(1,2, figsize=(16,4))

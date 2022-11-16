@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 
-VERSION = '0.0.1'
+VERSION = '0.0.7'
 DESCRIPTION = 'A package for identify Machine Learning bugs'
 
 # Setting up
@@ -14,6 +14,8 @@ setup(
     packages=find_packages(),
     install_requires=["pandas", "numpy", "matplotlib", "sklearn"],
     keywords=['python'],
+    include_package_data=True,
+    package_data={'': ['data/*.csv', 'models/*.pkl']},
     classifiers=[
         "Development Status :: 1 - Planning",
         "Intended Audience :: Developers",

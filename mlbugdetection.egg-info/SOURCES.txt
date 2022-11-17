@@ -5,6 +5,7 @@ mlbugdetection/__init__.py
 mlbugdetection/analysis_report.py
 mlbugdetection/calibration.py
 mlbugdetection/critical_values.py
+mlbugdetection/load_data.py
 mlbugdetection/monotonic.py
 mlbugdetection/sanity.py
 mlbugdetection.egg-info/PKG-INFO

@@ -10,6 +10,7 @@ Welcome to MLBugDetection's documentation!
 Resources
 ===========================================
 * `GitHub <https://github.com/jpgianfaldoni/MLBugDetection/>`_
+* `Tutorial <../src/Tutorial.html>`_
 
 Instalation
 ===========================================

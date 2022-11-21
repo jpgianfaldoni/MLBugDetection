@@ -38,3 +38,18 @@ mlbugdetection.sanity module
    :undoc-members:
    :show-inheritance:
 
+mlbugdetection.load_data module
+-------------------------------
+
+.. automodule:: mlbugdetection.load_data
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+mlbugdetection.load_models module
+---------------------------------
+
+.. automodule:: mlbugdetection.load_models
+   :members:
+   :undoc-members:
+   :show-inheritance:

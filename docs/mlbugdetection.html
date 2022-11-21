@@ -45,6 +45,8 @@
 <li class="toctree-l1"><a class="reference internal" href="#module-mlbugdetection.critical_values">mlbugdetection.critical_values module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="#module-mlbugdetection.monotonic">mlbugdetection.monotonic module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="#module-mlbugdetection.sanity">mlbugdetection.sanity module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#module-mlbugdetection.load_data">mlbugdetection.load_data module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#module-mlbugdetection.load_models">mlbugdetection.load_models module</a></li>
 </ul>
 
         </div>
@@ -519,6 +521,34 @@ need to predict correctly.</p></li>
 <dt>‘sanity_indexes’: List</dt><dd><p>List of indexes of the samples that were misclassified.</p>
 </dd>
 </dl>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-mlbugdetection.load_data">
+<span id="mlbugdetection-load-data-module"></span><h1>mlbugdetection.load_data module<a class="headerlink" href="#module-mlbugdetection.load_data" title="Permalink to this heading"></a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="mlbugdetection.load_data.load_dataset">
+<span class="sig-prename descclassname"><span class="pre">mlbugdetection.load_data.</span></span><span class="sig-name descname"><span class="pre">load_dataset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mlbugdetection/load_data.html#load_dataset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mlbugdetection.load_data.load_dataset" title="Permalink to this definition"></a></dt>
+<dd><p>Loads the Breast Cancer classification Dataset</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Pandas dataframe containing the Breast Cancer classification dataset</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-mlbugdetection.load_models">
+<span id="mlbugdetection-load-models-module"></span><h1>mlbugdetection.load_models module<a class="headerlink" href="#module-mlbugdetection.load_models" title="Permalink to this heading"></a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="mlbugdetection.load_models.load_models_path">
+<span class="sig-prename descclassname"><span class="pre">mlbugdetection.load_models.</span></span><span class="sig-name descname"><span class="pre">load_models_path</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mlbugdetection/load_models.html#load_models_path"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mlbugdetection.load_models.load_models_path" title="Permalink to this definition"></a></dt>
+<dd><p>Loads MPLClassifer and the KNN models paths trained with the Breast Cancer classification Dataset</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Sklearn MPLClassifier and KNN models</p>
 </dd>
 </dl>
 </dd></dl>

@@ -72,6 +72,14 @@
   <h1>Source code for mlbugdetection.sanity</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">pickle</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">.analysis_report</span> <span class="kn">import</span> <span class="n">AnalysisReport</span>
+
+<div class="viewcode-block" id="check_type_input_model"><a class="viewcode-back" href="../../mlbugdetection.html#mlbugdetection.sanity.check_type_input_model">[docs]</a><span class="k">def</span> <span class="nf">check_type_input_model</span><span class="p">(</span><span class="n">model</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39; Check the type of the input model and returns the model object &#39;&#39;&#39;</span>
+    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">model</span><span class="p">)</span> <span class="o">==</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">model</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">model</span></div>
 
 <div class="viewcode-block" id="sanity_check"><a class="viewcode-back" href="../../mlbugdetection.html#mlbugdetection.sanity.sanity_check">[docs]</a><span class="k">def</span> <span class="nf">sanity_check</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">samples</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;Sanity Test</span>
@@ -94,16 +102,82 @@
 <span class="sd">    -------</span>
 <span class="sd">    bool True if the model is sane, False otherwise.</span>
 <span class="sd">    &#39;&#39;&#39;</span>
-    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">model</span><span class="p">)</span> <span class="o">==</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-            <span class="n">model</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">check_type_input_model</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
 
     <span class="n">result</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">samples</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
     <span class="n">original</span> <span class="o">=</span> <span class="n">samples</span><span class="p">[</span><span class="n">target</span><span class="p">]</span>
-    <span class="n">values</span> <span class="o">=</span> <span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">result</span><span class="p">)</span> <span class="o">==</span> <span class="n">original</span><span class="p">)</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">index</span>
-    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">values</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+
+    <span class="n">result</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">result</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">origin</span> <span class="o">=</span> <span class="n">original</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">values</span> <span class="o">=</span> <span class="n">result</span> <span class="o">==</span> <span class="n">origin</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">values</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">index</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">False</span>
+
     <span class="k">return</span> <span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="sanity_check_with_indexes"><a class="viewcode-back" href="../../mlbugdetection.html#mlbugdetection.sanity.sanity_check_with_indexes">[docs]</a><span class="k">def</span> <span class="nf">sanity_check_with_indexes</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">samples</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Sanity Test With Indexes</span>
+<span class="sd">        Analyzes the sanity of a model with samples and </span>
+<span class="sd">        shows a Analysis Report that shows if the tests passed or not.</span>
+<span class="sd">        If the tests failed, it will show the indexes of the samples that were misclassified.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    model : sklearn model or str</span>
+<span class="sd">        The model to be used for prediction. Could be a model object or a path to a model file.</span>
+
+<span class="sd">    samples : pandas DataFrame</span>
+<span class="sd">        The samples to be used for prediction, which the model</span>
+<span class="sd">        need to predict correctly. </span>
+
+<span class="sd">    target : str</span>
+<span class="sd">        The name of the column containing the target variable.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">     AnalysisReport object with following attributes:</span>
+<span class="sd">        For more information:</span>
+<span class="sd">        &gt;&gt;&gt; from mlbugdetection.analysis_report import AnalysisReport</span>
+<span class="sd">        &gt;&gt;&gt; help(AnalysisReport)</span>
+
+<span class="sd">    model_name : str</span>
+<span class="sd">        Name of the model being analysed.</span>
+<span class="sd">    </span>
+<span class="sd">    analysed_feature : str</span>
+<span class="sd">        Name of the feature being analysed.</span>
+
+<span class="sd">    metrics : dictionary</span>
+<span class="sd">        Dictionary with all the calculated metrics, such as:</span>
+<span class="sd">        </span>
+<span class="sd">        &#39;sanity&#39; : bool</span>
+<span class="sd">            If the model is sane or not.</span>
+
+<span class="sd">        &#39;sanity_indexes&#39;: List</span>
+<span class="sd">            List of indexes of the samples that were misclassified.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">check_type_input_model</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+    <span class="n">report</span> <span class="o">=</span> <span class="n">AnalysisReport</span><span class="p">()</span>
+
+    <span class="n">result</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">samples</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+    <span class="n">original</span> <span class="o">=</span> <span class="n">samples</span><span class="p">[</span><span class="n">target</span><span class="p">]</span>
+
+    <span class="n">result</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">result</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">origin</span> <span class="o">=</span> <span class="n">original</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">values</span> <span class="o">=</span> <span class="n">result</span> <span class="o">==</span> <span class="n">origin</span>
+    
+    <span class="n">report</span><span class="o">.</span><span class="n">model_name</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="n">model</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span>
+    <span class="n">report</span><span class="o">.</span><span class="n">analysed_feature</span> <span class="o">=</span> <span class="n">target</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">values</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">index</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="n">report</span><span class="o">.</span><span class="n">metrics</span><span class="p">[</span><span class="s2">&quot;sanity&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="n">report</span><span class="o">.</span><span class="n">metrics</span><span class="p">[</span><span class="s2">&quot;sanity_indexes&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">values</span><span class="p">[</span><span class="n">values</span><span class="o">==</span><span class="kc">False</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">to_list</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">report</span>
+
+    <span class="n">report</span><span class="o">.</span><span class="n">metrics</span><span class="p">[</span><span class="s2">&quot;sanity&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">report</span><span class="o">.</span><span class="n">metrics</span><span class="p">[</span><span class="s2">&quot;sanity_indexes&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">return</span> <span class="n">report</span></div>
 </pre></div>
 
            </div>

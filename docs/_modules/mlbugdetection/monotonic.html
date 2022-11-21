@@ -75,6 +75,7 @@
 <span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
 <span class="kn">from</span> <span class="nn">.analysis_report</span> <span class="kn">import</span> <span class="n">AnalysisReport</span>
 
+
 <div class="viewcode-block" id="monotonicity_mse"><a class="viewcode-back" href="../../mlbugdetection.html#mlbugdetection.monotonic.monotonicity_mse">[docs]</a><span class="k">def</span> <span class="nf">monotonicity_mse</span><span class="p">(</span><span class="n">predictions</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Monotonicity Mean Square Error</span>
 
@@ -105,8 +106,8 @@
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">asc</span><span class="p">,</span> <span class="nb">min</span><span class="p">(</span><span class="n">mse_asc</span><span class="p">,</span><span class="n">mse_desc</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="check_monotonicity"><a class="viewcode-back" href="../../mlbugdetection.html#mlbugdetection.monotonic.check_monotonicity">[docs]</a><span class="k">def</span> <span class="nf">check_monotonicity</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">sample</span><span class="p">,</span> <span class="n">feature</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">,</span> <span class="n">steps</span><span class="o">=</span><span class="mi">100</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39;Monotonicity Analysis</span>
+<div class="viewcode-block" id="check_monotonicity_single_sample"><a class="viewcode-back" href="../../mlbugdetection.html#mlbugdetection.monotonic.check_monotonicity_single_sample">[docs]</a><span class="k">def</span> <span class="nf">check_monotonicity_single_sample</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">sample</span><span class="p">,</span> <span class="n">feature</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Monotonicity Analysis for a single example</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -125,8 +126,9 @@
 <span class="sd">    stop : int</span>
 <span class="sd">        The end value of the feature&#39;s interval.</span>
 
-<span class="sd">    steps : int, default=100</span>
-<span class="sd">        Number of values that will be atributed to the analysed feature. Must be non-negative.</span>
+<span class="sd">    step : float, default=1</span>
+<span class="sd">        Size of the step between ranges &quot;start&quot; and &quot;stop&quot;.</span>
+<span class="sd">        Ex: step = 0.1 between ranges 0 and 1 will result in [0  0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9]</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -156,6 +158,9 @@
 <span class="sd">    graphs : List</span>
 <span class="sd">            List of all the figures created.</span>
 <span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sample</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Sample must have only one example, please use &#39;check_monotonicity_multiple_samples&#39; for multiple samples&quot;</span><span class="p">)</span>
     <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">model</span><span class="p">)</span> <span class="o">==</span> <span class="nb">str</span><span class="p">:</span>
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
             <span class="n">model</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
@@ -163,11 +168,13 @@
     <span class="n">report</span> <span class="o">=</span> <span class="n">AnalysisReport</span><span class="p">()</span>
     <span class="n">colValues</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">predictions</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">start</span><span class="p">,</span><span class="n">stop</span><span class="p">,</span><span class="n">steps</span><span class="p">):</span>
+
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">start</span><span class="p">,</span><span class="n">stop</span><span class="p">,</span><span class="n">step</span><span class="p">):</span>
         <span class="n">colValues</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
         <span class="n">sample</span><span class="p">[</span><span class="n">feature</span><span class="p">]</span> <span class="o">=</span> <span class="n">i</span>
         <span class="n">prediction</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">sample</span><span class="p">)</span>
-        <span class="n">predictions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">prediction</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">predictions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">prediction</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span>
     
     <span class="n">monotonic</span> <span class="o">=</span>  <span class="p">(</span><span class="nb">all</span><span class="p">(</span><span class="n">predictions</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">predictions</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">predictions</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span> <span class="ow">or</span> <span class="nb">all</span><span class="p">(</span><span class="n">predictions</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">predictions</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">predictions</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)))</span>
     <span class="n">report</span><span class="o">.</span><span class="n">model_name</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="n">model</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span>
@@ -183,6 +190,101 @@
         <span class="n">monotonic_curve</span><span class="p">,</span> <span class="n">m_mse_score</span> <span class="o">=</span> <span class="n">monotonicity_mse</span><span class="p">(</span><span class="n">predictions</span><span class="p">)</span>
         <span class="n">report</span><span class="o">.</span><span class="n">metrics</span><span class="p">[</span><span class="s2">&quot;monotonic_score&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">m_mse_score</span>
         <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">colValues</span><span class="p">,</span> <span class="n">monotonic_curve</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;dashed&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Monotonic Approximation&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">colValues</span><span class="p">,</span> <span class="n">predictions</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Predictions Curve&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Model: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">model</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Feature </span><span class="si">{</span><span class="n">feature</span><span class="si">}</span><span class="s1"> value&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Predict proba&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s2">&quot;lower right&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">report</span></div>
+
+
+<div class="viewcode-block" id="check_monotonicity_multiple_samples"><a class="viewcode-back" href="../../mlbugdetection.html#mlbugdetection.monotonic.check_monotonicity_multiple_samples">[docs]</a><span class="k">def</span> <span class="nf">check_monotonicity_multiple_samples</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">sample</span><span class="p">,</span> <span class="n">feature</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Monotonicity Analysis for multiple examples</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    model : sklearn model or str</span>
+<span class="sd">        Model that will be used to make predictions. Could be a model object or a path to a model file.</span>
+
+<span class="sd">    sample : pandas.DataFrame</span>
+<span class="sd">        Pandas DataFrame containing one row that will be used as base point.</span>
+
+<span class="sd">    feature : str</span>
+<span class="sd">        Name of the feature being analysed.</span>
+
+<span class="sd">    start : int</span>
+<span class="sd">        The starting value of the feature&#39;s interval.</span>
+
+<span class="sd">    stop : int</span>
+<span class="sd">        The end value of the feature&#39;s interval.</span>
+
+<span class="sd">    step : float, default=1</span>
+<span class="sd">            Size of the step between ranges &quot;start&quot; and &quot;stop&quot;.</span>
+<span class="sd">            Ex: step = 0.1 between ranges 0 and 1 will result in [0  0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9]</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    AnalysisReport object with following attributes:</span>
+<span class="sd">        For more information:</span>
+<span class="sd">        &gt;&gt;&gt; from mlbugdetection.analysis_report import AnalysisReport</span>
+<span class="sd">        &gt;&gt;&gt; help(AnalysisReport)</span>
+
+<span class="sd">    model_name : str</span>
+<span class="sd">        Name of the model being analysed.</span>
+<span class="sd">    </span>
+<span class="sd">    analysed_feature : str</span>
+<span class="sd">        Name of the feature being analysed.</span>
+<span class="sd">    </span>
+<span class="sd">    feature_range : tuple</span>
+<span class="sd">        Range of values of the feature being analysed: (start, stop).</span>
+<span class="sd">    </span>
+<span class="sd">    metrics : dictionary</span>
+<span class="sd">        Dictionary with all the calculated metrics, such as:</span>
+<span class="sd">        </span>
+<span class="sd">        &#39;monotonic&#39; : bool</span>
+<span class="sd">             If the list of values is monotonic.</span>
+
+<span class="sd">        &#39;monotonic_score&#39;: float</span>
+<span class="sd">            MSE between the list of values and it`s closest monotonic aproximation. </span>
+<span class="sd">        </span>
+<span class="sd">        &#39;monotonic_means_std&#39;: float</span>
+<span class="sd">            Standard deviation of the means of the predictions probabilities.</span>
+
+<span class="sd">    graphs : List</span>
+<span class="sd">            List of all the figures created.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sample</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Sample must have multiple examples, please use &#39;check_monotonicity_single_sample&#39; for single example&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">model</span><span class="p">)</span> <span class="o">==</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">model</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+            
+    <span class="n">report</span> <span class="o">=</span> <span class="n">AnalysisReport</span><span class="p">()</span>
+    <span class="n">colValues</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">predictions</span> <span class="o">=</span> <span class="p">[]</span>
+
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">start</span><span class="p">,</span><span class="n">stop</span><span class="p">,</span><span class="n">step</span><span class="p">):</span>
+        <span class="n">colValues</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+        <span class="n">sample</span><span class="p">[</span><span class="n">feature</span><span class="p">]</span> <span class="o">=</span> <span class="n">i</span>
+        <span class="n">prediction</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">sample</span><span class="p">)</span>
+        <span class="n">predictions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">prediction</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]))</span>
+
+    <span class="n">monotonic</span> <span class="o">=</span>  <span class="p">(</span><span class="nb">all</span><span class="p">(</span><span class="n">predictions</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">predictions</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">predictions</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span> <span class="ow">or</span> <span class="nb">all</span><span class="p">(</span><span class="n">predictions</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">predictions</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">predictions</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)))</span>
+    <span class="n">report</span><span class="o">.</span><span class="n">model_name</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="n">model</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span>
+    <span class="n">report</span><span class="o">.</span><span class="n">analysed_feature</span> <span class="o">=</span> <span class="n">feature</span>
+    <span class="n">report</span><span class="o">.</span><span class="n">feature_range</span> <span class="o">=</span> <span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">)</span>
+    <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">150</span><span class="p">)</span>
+    <span class="n">report</span><span class="o">.</span><span class="n">graphs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fig</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">monotonic</span><span class="p">:</span>
+        <span class="n">report</span><span class="o">.</span><span class="n">metrics</span><span class="p">[</span><span class="s2">&quot;monotonic&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="n">report</span><span class="o">.</span><span class="n">metrics</span><span class="p">[</span><span class="s2">&quot;monotonic_score&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">report</span><span class="o">.</span><span class="n">metrics</span><span class="p">[</span><span class="s2">&quot;monotonic&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="n">monotonic_curve</span><span class="p">,</span> <span class="n">m_mse_score</span> <span class="o">=</span> <span class="n">monotonicity_mse</span><span class="p">(</span><span class="n">predictions</span><span class="p">)</span>
+        <span class="n">report</span><span class="o">.</span><span class="n">metrics</span><span class="p">[</span><span class="s2">&quot;monotonic_score&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">m_mse_score</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">colValues</span><span class="p">,</span> <span class="n">monotonic_curve</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;dashed&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Monotonic Approximation&quot;</span><span class="p">)</span>
+    <span class="n">report</span><span class="o">.</span><span class="n">metrics</span><span class="p">[</span><span class="s2">&quot;monotonic_means_std&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nanstd</span><span class="p">(</span><span class="n">predictions</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">colValues</span><span class="p">,</span> <span class="n">predictions</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Predictions Curve&quot;</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Model: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">model</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Feature </span><span class="si">{</span><span class="n">feature</span><span class="si">}</span><span class="s1"> value&#39;</span><span class="p">)</span>

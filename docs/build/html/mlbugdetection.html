@@ -85,7 +85,7 @@ All library functions returns a Analysis Report Object</p>
 <li><p><strong>model_name</strong> (<em>str</em><em>, </em><em>default = ''</em>) – Name of the model being analysed.</p></li>
 <li><p><strong>analysed_feature</strong> (<em>str</em><em>, </em><em>default = ''</em>) – Name of the feature being analysed.</p></li>
 <li><p><strong>feature_range</strong> (<em>tuple</em><em>, </em><em>default =</em><em> (</em><em>)</em>) – Range of values of the feature being analysed: (start, stop).</p></li>
-<li><p><strong>metrics</strong> – <p>Dictionary with all the calculated metrics.
+<li><p><strong>metrics</strong> (<em>dictionary</em><em>, </em><em>default = {}</em>) – <p>Dictionary with all the calculated metrics.
 All the possible metrics that can be calculated are:</p>
 <dl>
 <dt>’monotonic’<span class="classifier">bool</span></dt><dd><p>If the list of values is monotonic.</p>
@@ -118,13 +118,16 @@ All the possible metrics that can be calculated are:</p>
 </dl>
 </div></blockquote>
 </dd>
-</dl>
-</p></li>
-</ul>
+<dt>’negative_means’<span class="classifier">dictionary</span></dt><dd><p>Same as “positive_means”, but for negative variations in the prediction probabilities.</p>
+</dd>
+<dt>’sanity’<span class="classifier">bool</span></dt><dd><p>If the model is sane or not.</p>
+</dd>
+<dt>’sanity_indexes’<span class="classifier">List</span></dt><dd><p>List of indexes of the samples that were misclassified.</p>
 </dd>
 </dl>
-<dl class="simple">
-<dt>graphs<span class="classifier">List, default = []</span></dt><dd><p>List of all the figures created.</p>
+</p></li>
+<li><p><strong>graphs</strong> (<em>List</em><em>, </em><em>default =</em><em> [</em><em>]</em>) – List of all the figures created.</p></li>
+</ul>
 </dd>
 </dl>
 <dl class="py method">
@@ -182,7 +185,7 @@ between the perfect calibration and the model’s calibration.</p>
 <span id="mlbugdetection-critical-values-module"></span><h1>mlbugdetection.critical_values module<a class="headerlink" href="#module-mlbugdetection.critical_values" title="Permalink to this heading"></a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="mlbugdetection.critical_values.find_critical_values">
-<span class="sig-prename descclassname"><span class="pre">mlbugdetection.critical_values.</span></span><span class="sig-name descname"><span class="pre">find_critical_values</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stop</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">steps</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keep_n</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mlbugdetection/critical_values.html#find_critical_values"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mlbugdetection.critical_values.find_critical_values" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">mlbugdetection.critical_values.</span></span><span class="sig-name descname"><span class="pre">find_critical_values</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stop</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">step</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keep_n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">3</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mlbugdetection/critical_values.html#find_critical_values"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mlbugdetection.critical_values.find_critical_values" title="Permalink to this definition"></a></dt>
 <dd><dl class="simple">
 <dt>Critical Values Finder</dt><dd><p>Finds highest changes (positive or negative) in predict_proba
 over an specified inteval [<cite>start</cite>, <cite>stop</cite>].</p>
@@ -196,12 +199,18 @@ over an specified inteval [<cite>start</cite>, <cite>stop</cite>].</p>
 <li><p><strong>feature</strong> (<em>str</em>) – Feature of dataframe that will be analysed.</p></li>
 <li><p><strong>start</strong> (<em>int</em>) – The starting value of the feature’s interval.</p></li>
 <li><p><strong>stop</strong> (<em>int</em>) – The end value of the feature’s interval.</p></li>
-<li><p><strong>steps</strong> (<em>int</em><em>, </em><em>default=100</em>) – Number of values that will be atributed to the analysed feature. Must be non-negative.</p></li>
-<li><p><strong>keep_n</strong> (<em>int</em><em>, </em><em>default=3</em>) – Number of values that are to be keeped in each list</p></li>
+<li><p><strong>step</strong> (<em>float</em><em>, </em><em>default=1</em>) – Size of the step between ranges “start” and “stop”.
+Ex: step = 0.1 between ranges 0 and 1 will result in [0  0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9]</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p><ul>
+</dl>
+<dl class="simple">
+<dt>keep_n<span class="classifier">int, default=3</span></dt><dd><p>Number of values that are to be keeped in each list</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><ul>
 <li><p><em>AnalysisReport object with following attributes</em> – For more information:
 &gt;&gt;&gt; from mlbugdetection.analysis_report import AnalysisReport
 &gt;&gt;&gt; help(AnalysisReport)</p></li>
@@ -243,7 +252,7 @@ classification change.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="mlbugdetection.critical_values.find_several_critical_values">
-<span class="sig-prename descclassname"><span class="pre">mlbugdetection.critical_values.</span></span><span class="sig-name descname"><span class="pre">find_several_critical_values</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">samples</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stop</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">steps</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bins</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">15</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keep_n</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mlbugdetection/critical_values.html#find_several_critical_values"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mlbugdetection.critical_values.find_several_critical_values" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">mlbugdetection.critical_values.</span></span><span class="sig-name descname"><span class="pre">find_several_critical_values</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">samples</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stop</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">step</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bins</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">15</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keep_n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mlbugdetection/critical_values.html#find_several_critical_values"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mlbugdetection.critical_values.find_several_critical_values" title="Permalink to this definition"></a></dt>
 <dd><dl class="simple">
 <dt>Critical Values Finder in Several Samples</dt><dd><p>Finds mean, median, standard deviation, variation of the critical values
 found in the samples over an specified inteval [<cite>start</cite>, <cite>stop</cite>].</p>
@@ -253,17 +262,26 @@ found in the samples over an specified inteval [<cite>start</cite>, <cite>stop</
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>model</strong> (<em>sklearn model</em><em> or </em><em>str</em>) – Model already trained and tested from scikit-learn. Could be a model object or a path to a model file.</p></li>
-<li><p><strong>samples</strong> (<em>pandas DataFrame</em>) – One or more rows of the dataframe that will be used for the analysis.</p></li>
+<li><p><strong>samples</strong> (<em>pandas DataFrame</em>) – Two or more rows of the dataframe that will be used for the analysis.</p></li>
 <li><p><strong>feature</strong> (<em>str</em>) – Feature of dataframe that will be analysed.</p></li>
 <li><p><strong>start</strong> (<em>int</em>) – The starting value of the feature’s interval.</p></li>
 <li><p><strong>stop</strong> (<em>int</em>) – The end value of the feature’s interval.</p></li>
-<li><p><strong>steps</strong> (<em>int</em><em>, </em><em>default=100</em>) – Number of samples to generate. Must be non-negative.</p></li>
-<li><p><strong>bins</strong> (<em>int</em><em>, </em><em>default=15</em>) – It defines the number of equal-width bins in the range.</p></li>
-<li><p><strong>keep_n</strong> (<em>int</em><em>, </em><em>default=5</em>) – Number of the highest values to use for mean, median, std, var calculation.</p></li>
+<li><p><strong>step</strong> (<em>float</em><em>, </em><em>default=1</em>) – Size of the step between ranges “start” and “stop”.
+Ex: step = 0.1 between ranges 0 and 1 will result in [0  0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9]</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p><ul>
+</dl>
+<dl class="simple">
+<dt>bins<span class="classifier">int, default=15</span></dt><dd><p>It defines the number of equal-width bins in the range.</p>
+</dd>
+<dt>keep_n<span class="classifier">int, default=5</span></dt><dd><p>Number of the highest values to use for mean, median, std, var calculation.</p>
+</dd>
+<dt>log<span class="classifier">bool, default=False</span></dt><dd><p>If True, the histogram axis will be set to a log scale.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><ul>
 <li><p><em>AnalysisReport object with following attributes</em> – For more information:
 &gt;&gt;&gt; from mlbugdetection.analysis_report import AnalysisReport
 &gt;&gt;&gt; help(AnalysisReport)</p></li>
@@ -298,16 +316,19 @@ found in the samples over an specified inteval [<cite>start</cite>, <cite>stop</
 </dd>
 </dl>
 </li>
-<li><p><strong>graphs</strong> (<em>List</em>) – List of all the figures created.</p></li>
 </ul>
 </p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>graphs<span class="classifier">List</span></dt><dd><p>List of all the figures created.</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="mlbugdetection.critical_values.highest_and_lowest_indexes">
-<span class="sig-prename descclassname"><span class="pre">mlbugdetection.critical_values.</span></span><span class="sig-name descname"><span class="pre">highest_and_lowest_indexes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">predictions</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keep_n</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mlbugdetection/critical_values.html#highest_and_lowest_indexes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mlbugdetection.critical_values.highest_and_lowest_indexes" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">mlbugdetection.critical_values.</span></span><span class="sig-name descname"><span class="pre">highest_and_lowest_indexes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">predictions</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keep_n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">3</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mlbugdetection/critical_values.html#highest_and_lowest_indexes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mlbugdetection.critical_values.highest_and_lowest_indexes" title="Permalink to this definition"></a></dt>
 <dd><dl class="simple">
 <dt>Return indexes of highest changes (positive or negative)</dt><dd><p>in predictions</p>
 </dd>
@@ -326,9 +347,9 @@ found in the samples over an specified inteval [<cite>start</cite>, <cite>stop</
 <section id="module-mlbugdetection.monotonic">
 <span id="mlbugdetection-monotonic-module"></span><h1>mlbugdetection.monotonic module<a class="headerlink" href="#module-mlbugdetection.monotonic" title="Permalink to this heading"></a></h1>
 <dl class="py function">
-<dt class="sig sig-object py" id="mlbugdetection.monotonic.check_monotonicity">
-<span class="sig-prename descclassname"><span class="pre">mlbugdetection.monotonic.</span></span><span class="sig-name descname"><span class="pre">check_monotonicity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stop</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">steps</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mlbugdetection/monotonic.html#check_monotonicity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mlbugdetection.monotonic.check_monotonicity" title="Permalink to this definition"></a></dt>
-<dd><p>Monotonicity Analysis</p>
+<dt class="sig sig-object py" id="mlbugdetection.monotonic.check_monotonicity_multiple_samples">
+<span class="sig-prename descclassname"><span class="pre">mlbugdetection.monotonic.</span></span><span class="sig-name descname"><span class="pre">check_monotonicity_multiple_samples</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stop</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">step</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mlbugdetection/monotonic.html#check_monotonicity_multiple_samples"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mlbugdetection.monotonic.check_monotonicity_multiple_samples" title="Permalink to this definition"></a></dt>
+<dd><p>Monotonicity Analysis for multiple examples</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -337,7 +358,49 @@ found in the samples over an specified inteval [<cite>start</cite>, <cite>stop</
 <li><p><strong>feature</strong> (<em>str</em>) – Name of the feature being analysed.</p></li>
 <li><p><strong>start</strong> (<em>int</em>) – The starting value of the feature’s interval.</p></li>
 <li><p><strong>stop</strong> (<em>int</em>) – The end value of the feature’s interval.</p></li>
-<li><p><strong>steps</strong> (<em>int</em><em>, </em><em>default=100</em>) – Number of values that will be atributed to the analysed feature. Must be non-negative.</p></li>
+<li><p><strong>step</strong> (<em>float</em><em>, </em><em>default=1</em>) – Size of the step between ranges “start” and “stop”.
+Ex: step = 0.1 between ranges 0 and 1 will result in [0  0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9]</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul>
+<li><p><em>AnalysisReport object with following attributes</em> – For more information:
+&gt;&gt;&gt; from mlbugdetection.analysis_report import AnalysisReport
+&gt;&gt;&gt; help(AnalysisReport)</p></li>
+<li><p><strong>model_name</strong> (<em>str</em>) – Name of the model being analysed.</p></li>
+<li><p><strong>analysed_feature</strong> (<em>str</em>) – Name of the feature being analysed.</p></li>
+<li><p><strong>feature_range</strong> (<em>tuple</em>) – Range of values of the feature being analysed: (start, stop).</p></li>
+<li><p><strong>metrics</strong> (<em>dictionary</em>) – Dictionary with all the calculated metrics, such as:</p>
+<dl class="simple">
+<dt>’monotonic’<span class="classifier">bool</span></dt><dd><p>If the list of values is monotonic.</p>
+</dd>
+<dt>’monotonic_score’: float</dt><dd><p>MSE between the list of values and it`s closest monotonic aproximation.</p>
+</dd>
+<dt>’monotonic_means_std’: float</dt><dd><p>Standard deviation of the means of the predictions probabilities.</p>
+</dd>
+</dl>
+</li>
+<li><p><strong>graphs</strong> (<em>List</em>) – List of all the figures created.</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mlbugdetection.monotonic.check_monotonicity_single_sample">
+<span class="sig-prename descclassname"><span class="pre">mlbugdetection.monotonic.</span></span><span class="sig-name descname"><span class="pre">check_monotonicity_single_sample</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stop</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">step</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mlbugdetection/monotonic.html#check_monotonicity_single_sample"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mlbugdetection.monotonic.check_monotonicity_single_sample" title="Permalink to this definition"></a></dt>
+<dd><p>Monotonicity Analysis for a single example</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>model</strong> (<em>sklearn model</em><em> or </em><em>str</em>) – Model that will be used to make predictions. Could be a model object or a path to a model file.</p></li>
+<li><p><strong>sample</strong> (<em>pandas.DataFrame</em>) – Pandas DataFrame containing one row that will be used as base point.</p></li>
+<li><p><strong>feature</strong> (<em>str</em>) – Name of the feature being analysed.</p></li>
+<li><p><strong>start</strong> (<em>int</em>) – The starting value of the feature’s interval.</p></li>
+<li><p><strong>stop</strong> (<em>int</em>) – The end value of the feature’s interval.</p></li>
+<li><p><strong>step</strong> (<em>float</em><em>, </em><em>default=1</em>) – Size of the step between ranges “start” and “stop”.
+Ex: step = 0.1 between ranges 0 and 1 will result in [0  0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9]</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -389,6 +452,12 @@ of this list.</p>
 <section id="module-mlbugdetection.sanity">
 <span id="mlbugdetection-sanity-module"></span><h1>mlbugdetection.sanity module<a class="headerlink" href="#module-mlbugdetection.sanity" title="Permalink to this heading"></a></h1>
 <dl class="py function">
+<dt class="sig sig-object py" id="mlbugdetection.sanity.check_type_input_model">
+<span class="sig-prename descclassname"><span class="pre">mlbugdetection.sanity.</span></span><span class="sig-name descname"><span class="pre">check_type_input_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mlbugdetection/sanity.html#check_type_input_model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mlbugdetection.sanity.check_type_input_model" title="Permalink to this definition"></a></dt>
+<dd><p>Check the type of the input model and returns the model object</p>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="mlbugdetection.sanity.sanity_check">
 <span class="sig-prename descclassname"><span class="pre">mlbugdetection.sanity.</span></span><span class="sig-name descname"><span class="pre">sanity_check</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">samples</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mlbugdetection/sanity.html#sanity_check"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mlbugdetection.sanity.sanity_check" title="Permalink to this definition"></a></dt>
 <dd><dl class="simple">
@@ -407,6 +476,49 @@ need to predict correctly.</p></li>
 </dd>
 <dt class="field-even">Return type</dt>
 <dd class="field-even"><p>bool True if the model is sane, False otherwise.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mlbugdetection.sanity.sanity_check_with_indexes">
+<span class="sig-prename descclassname"><span class="pre">mlbugdetection.sanity.</span></span><span class="sig-name descname"><span class="pre">sanity_check_with_indexes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">samples</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mlbugdetection/sanity.html#sanity_check_with_indexes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mlbugdetection.sanity.sanity_check_with_indexes" title="Permalink to this definition"></a></dt>
+<dd><dl class="simple">
+<dt>Sanity Test With Indexes</dt><dd><p>Analyzes the sanity of a model with samples and
+shows a Analysis Report that shows if the tests passed or not.
+If the tests failed, it will show the indexes of the samples that were misclassified.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>model</strong> (<em>sklearn model</em><em> or </em><em>str</em>) – The model to be used for prediction. Could be a model object or a path to a model file.</p></li>
+<li><p><strong>samples</strong> (<em>pandas DataFrame</em>) – The samples to be used for prediction, which the model
+need to predict correctly.</p></li>
+<li><p><strong>target</strong> (<em>str</em>) – The name of the column containing the target variable.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>For more information:
+&gt;&gt;&gt; from mlbugdetection.analysis_report import AnalysisReport
+&gt;&gt;&gt; help(AnalysisReport)</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>AnalysisReport object with following attributes</p>
+</dd>
+</dl>
+<dl>
+<dt>model_name<span class="classifier">str</span></dt><dd><p>Name of the model being analysed.</p>
+</dd>
+<dt>analysed_feature<span class="classifier">str</span></dt><dd><p>Name of the feature being analysed.</p>
+</dd>
+<dt>metrics<span class="classifier">dictionary</span></dt><dd><p>Dictionary with all the calculated metrics, such as:</p>
+<dl class="simple">
+<dt>‘sanity’<span class="classifier">bool</span></dt><dd><p>If the model is sane or not.</p>
+</dd>
+<dt>‘sanity_indexes’: List</dt><dd><p>List of indexes of the samples that were misclassified.</p>
+</dd>
+</dl>
 </dd>
 </dl>
 </dd></dl>

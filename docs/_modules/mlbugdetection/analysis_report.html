@@ -130,10 +130,15 @@
 <span class="sd">            </span>
 <span class="sd">                &#39;var&#39; : float</span>
 <span class="sd">                    Variation of the all the positive changes means</span>
-
 <span class="sd">        </span>
 <span class="sd">        &#39;negative_means&#39; : dictionary</span>
 <span class="sd">            Same as &quot;positive_means&quot;, but for negative variations in the prediction probabilities.</span>
+<span class="sd">        </span>
+<span class="sd">        &#39;sanity&#39; : bool</span>
+<span class="sd">            If the model is sane or not.</span>
+<span class="sd">    </span>
+<span class="sd">        &#39;sanity_indexes&#39; : List</span>
+<span class="sd">            List of indexes of the samples that were misclassified.</span>
 <span class="sd">    </span>
 <span class="sd">    graphs : List, default = []</span>
 <span class="sd">        List of all the figures created.</span>

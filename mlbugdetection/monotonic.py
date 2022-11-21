@@ -34,7 +34,7 @@ def monotonicity_mse(predictions):
     else:
         return asc, min(mse_asc,mse_desc)
 
-def check_monotonicity_single_sample(model, sample, feature, start, stop, steps=100):
+def check_monotonicity_single_sample(model, sample, feature, start, stop, step=1):
     '''Monotonicity Analysis for a single example
 
     Parameters
@@ -54,9 +54,9 @@ def check_monotonicity_single_sample(model, sample, feature, start, stop, steps=
     stop : int
         The end value of the feature's interval.
 
-    steps : int, default=100
-        Number of values that will be atributed to the analysed feature between the start and stop interval. Must be non-negative.
-        Example: start = 1, stop = 100, steps = 100, will result in 100 values from 1 to 100 (1,2,3,4,5,6,...).
+    step : float, default=1
+        Size of the step between ranges "start" and "stop".
+        Ex: step = 0.1 between ranges 0 and 1 will result in [0  0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9]
 
     Returns
     -------
@@ -98,7 +98,7 @@ def check_monotonicity_single_sample(model, sample, feature, start, stop, steps=
     predictions = []
 
 
-    for i in np.linspace(start,stop,steps):
+    for i in np.arange(start,stop,step):
         colValues.append(i)
         sample[feature] = i
         prediction = model.predict_proba(sample)
@@ -126,7 +126,7 @@ def check_monotonicity_single_sample(model, sample, feature, start, stop, steps=
     return report
 
 
-def check_monotonicity_multiple_samples(model, sample, feature, start, stop, steps=100):
+def check_monotonicity_multiple_samples(model, sample, feature, start, stop, step=1):
     '''Monotonicity Analysis for multiple examples
 
     Parameters
@@ -146,9 +146,9 @@ def check_monotonicity_multiple_samples(model, sample, feature, start, stop, ste
     stop : int
         The end value of the feature's interval.
 
-    steps : int, default=100
-        Number of values that will be atributed to the analysed feature between the start and stop interval. Must be non-negative.
-        Example: start = 1, stop = 100, steps = 100, will result in 100 values from 1 to 100 (1,2,3,4,5,6,...).
+    step : float, default=1
+            Size of the step between ranges "start" and "stop".
+            Ex: step = 0.1 between ranges 0 and 1 will result in [0  0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9]
 
     Returns
     -------
@@ -192,7 +192,7 @@ def check_monotonicity_multiple_samples(model, sample, feature, start, stop, ste
     predictions = []
 
 
-    for i in np.linspace(start,stop,steps):
+    for i in np.arange(start,stop,step):
         colValues.append(i)
         sample[feature] = i
         prediction = model.predict_proba(sample)

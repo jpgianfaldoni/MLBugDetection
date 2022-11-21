@@ -28,7 +28,7 @@ def highest_and_lowest_indexes(predictions : list, keep_n : int = 3):
 
     return highest_indexes, lowest_indexes
 
-def find_critical_values(model, sample, feature : str, start : int, stop : int, steps : int = 100, keep_n : int = 3):
+def find_critical_values(model, sample, feature : str, start : int, stop : int, step : float = 1, keep_n : int = 3):
     '''Critical Values Finder
         Finds highest changes (positive or negative) in predict_proba 
         over an specified inteval [`start`, `stop`].
@@ -50,9 +50,9 @@ def find_critical_values(model, sample, feature : str, start : int, stop : int, 
     stop : int
         The end value of the feature's interval.
     
-    steps : int, default=100
-        Number of values that will be atributed to the analysed feature. Must be non-negative.
-        Example: start = 1, stop = 100, steps = 100, will result in 100 values from 1 to 100 (1,2,3,4,5,6,...).
+    step : float, default=1
+        Size of the step between ranges "start" and "stop".
+        Ex: step = 0.1 between ranges 0 and 1 will result in [0  0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9]
 
 
     keep_n : int, default=3
@@ -115,7 +115,7 @@ def find_critical_values(model, sample, feature : str, start : int, stop : int, 
     report = AnalysisReport()
     column_values = []
     predictions = []
-    range_ = np.linspace(start, stop, steps)
+    range_ = np.arange(start, stop, step)
     report.model_name = type(model).__name__
     report.analysed_feature= feature
     report.feature_range = (start, stop)
@@ -178,7 +178,7 @@ def find_critical_values(model, sample, feature : str, start : int, stop : int, 
     return report
 
 
-def find_several_critical_values(model, samples, feature : str, start : int, stop : int, steps : int = 100, bins : int = 15, keep_n : int = 5, log : bool = False):
+def find_several_critical_values(model, samples, feature : str, start : int, stop : int, step : float = 1, bins : int = 15, keep_n : int = 5, log : bool = False):
     '''Critical Values Finder in Several Samples
         Finds mean, median, standard deviation, variation of the critical values
         found in the samples over an specified inteval [`start`, `stop`].
@@ -200,9 +200,9 @@ def find_several_critical_values(model, samples, feature : str, start : int, sto
     stop : int
         The end value of the feature's interval.
     
-    steps : int, default=100
-        Number of samples to generate. Must be non-negative.
-        Example: start = 1, stop = 100, steps = 100, will result in 100 values from 1 to 100 (1,2,3,4,5,6,...).
+    step : float, default=1
+        Size of the step between ranges "start" and "stop".
+        Ex: step = 0.1 between ranges 0 and 1 will result in [0  0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9]
 
 
     bins : int, default=15
@@ -278,7 +278,7 @@ def find_several_critical_values(model, samples, feature : str, start : int, sto
     report = AnalysisReport()
     column_values = []
     predictions = []
-    range_ = np.linspace(start, stop, steps)
+    range_ = np.arange(start, stop, step)
     
     report.model_name = type(model).__name__
     report.analysed_feature = feature
@@ -331,17 +331,17 @@ def find_several_critical_values(model, samples, feature : str, start : int, sto
     report.metrics['negative_means']['std'] = np.nanstd(negative_means)
     report.metrics['negative_means']['var'] = np.nanvar(negative_means)
 
-    print("Positive means:")
-    print(f"\tMean: {report.metrics['positive_means']['mean']}")
-    print(f"\tMedian: {report.metrics['positive_means']['median']}")
-    print(f"\tStandard Deviation: {report.metrics['positive_means']['std']}")
-    print(f"\tVariance: {report.metrics['positive_means']['var']}")
+    # print("Positive means:")
+    # print(f"\tMean: {report.metrics['positive_means']['mean']}")
+    # print(f"\tMedian: {report.metrics['positive_means']['median']}")
+    # print(f"\tStandard Deviation: {report.metrics['positive_means']['std']}")
+    # print(f"\tVariance: {report.metrics['positive_means']['var']}")
 
-    print("Negative means:")
-    print(f"\tMean: {report.metrics['negative_means']['mean']}")
-    print(f"\tMedian: {report.metrics['negative_means']['median']}")
-    print(f"\tStandard Deviation: {report.metrics['negative_means']['std']}")
-    print(f"\tVariance: {report.metrics['negative_means']['var']}")
+    # print("Negative means:")
+    # print(f"\tMean: {report.metrics['negative_means']['mean']}")
+    # print(f"\tMedian: {report.metrics['negative_means']['median']}")
+    # print(f"\tStandard Deviation: {report.metrics['negative_means']['std']}")
+    # print(f"\tVariance: {report.metrics['negative_means']['var']}")
 
 
     fig, ax= plt.subplots(1,2, figsize=(16,4))

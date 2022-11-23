@@ -36,15 +36,15 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../../mlbugdetection.html">mlbugdetection.analysis_report module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../mlbugdetection.html#module-mlbugdetection.calibration">mlbugdetection.calibration module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../mlbugdetection.html#module-mlbugdetection.critical_values">mlbugdetection.critical_values module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../mlbugdetection.html#module-mlbugdetection.monotonic">mlbugdetection.monotonic module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../mlbugdetection.html#module-mlbugdetection.sanity">mlbugdetection.sanity module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../mlbugdetection.html#module-mlbugdetection.load_data">mlbugdetection.load_data module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../mlbugdetection.html#module-mlbugdetection.load_models">mlbugdetection.load_models module</a></li>
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../analysis.html">Analysis Report</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../monotonic.html">Monotonicity Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../critical.html">Critical Values Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../calibration.html">Calibration Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../sanity.html">Sanity Check Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../data.html">Load Data Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../model.html">Load Model Module</a></li>
 </ul>
 
         </div>
@@ -76,14 +76,14 @@
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">from</span> <span class="nn">.analysis_report</span> <span class="kn">import</span> <span class="n">AnalysisReport</span>
 
-<div class="viewcode-block" id="check_type_input_model"><a class="viewcode-back" href="../../mlbugdetection.html#mlbugdetection.sanity.check_type_input_model">[docs]</a><span class="k">def</span> <span class="nf">check_type_input_model</span><span class="p">(</span><span class="n">model</span><span class="p">):</span>
+<div class="viewcode-block" id="check_type_input_model"><a class="viewcode-back" href="../../sanity.html#mlbugdetection.sanity.check_type_input_model">[docs]</a><span class="k">def</span> <span class="nf">check_type_input_model</span><span class="p">(</span><span class="n">model</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39; Check the type of the input model and returns the model object &#39;&#39;&#39;</span>
     <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">model</span><span class="p">)</span> <span class="o">==</span> <span class="nb">str</span><span class="p">:</span>
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
             <span class="n">model</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">model</span></div>
 
-<div class="viewcode-block" id="sanity_check"><a class="viewcode-back" href="../../mlbugdetection.html#mlbugdetection.sanity.sanity_check">[docs]</a><span class="k">def</span> <span class="nf">sanity_check</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">samples</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>
+<div class="viewcode-block" id="sanity_check"><a class="viewcode-back" href="../../sanity.html#mlbugdetection.sanity.sanity_check">[docs]</a><span class="k">def</span> <span class="nf">sanity_check</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">samples</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;Sanity Test</span>
 <span class="sd">        Analyzes the sanity of a model with samples and </span>
 <span class="sd">        return a bool that represents if the tests passed or not.</span>
@@ -118,7 +118,7 @@
 
     <span class="k">return</span> <span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span></div>
 
-<div class="viewcode-block" id="sanity_check_with_indexes"><a class="viewcode-back" href="../../mlbugdetection.html#mlbugdetection.sanity.sanity_check_with_indexes">[docs]</a><span class="k">def</span> <span class="nf">sanity_check_with_indexes</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">samples</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>
+<div class="viewcode-block" id="sanity_check_with_indexes"><a class="viewcode-back" href="../../sanity.html#mlbugdetection.sanity.sanity_check_with_indexes">[docs]</a><span class="k">def</span> <span class="nf">sanity_check_with_indexes</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">samples</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;Sanity Test With Indexes</span>
 <span class="sd">        Analyzes the sanity of a model with samples and </span>
 <span class="sd">        shows a Analysis Report that shows if the tests passed or not.</span>

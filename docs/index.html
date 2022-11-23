@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Welcome to MLBugDetection’s documentation! &mdash; mlbugdetection  documentation</title>
+  <title>MLBugDetection &mdash; mlbugdetection  documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
@@ -20,7 +20,7 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="mlbugdetection.analysis_report module" href="mlbugdetection.html" /> 
+    <link rel="next" title="Installation" href="installation.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -38,15 +38,15 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="mlbugdetection.html">mlbugdetection.analysis_report module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="mlbugdetection.html#module-mlbugdetection.calibration">mlbugdetection.calibration module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="mlbugdetection.html#module-mlbugdetection.critical_values">mlbugdetection.critical_values module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="mlbugdetection.html#module-mlbugdetection.monotonic">mlbugdetection.monotonic module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="mlbugdetection.html#module-mlbugdetection.sanity">mlbugdetection.sanity module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="mlbugdetection.html#module-mlbugdetection.load_data">mlbugdetection.load_data module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="mlbugdetection.html#module-mlbugdetection.load_models">mlbugdetection.load_models module</a></li>
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="analysis.html">Analysis Report</a></li>
+<li class="toctree-l1"><a class="reference internal" href="monotonic.html">Monotonicity Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="critical.html">Critical Values Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="calibration.html">Calibration Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sanity.html">Sanity Check Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="data.html">Load Data Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="model.html">Load Model Module</a></li>
 </ul>
 
         </div>
@@ -63,7 +63,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="#" class="icon icon-home"></a></li>
-      <li class="breadcrumb-item active">Welcome to MLBugDetection’s documentation!</li>
+      <li class="breadcrumb-item active">MLBugDetection</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -73,27 +73,31 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="welcome-to-mlbugdetection-s-documentation">
-<h1>Welcome to MLBugDetection’s documentation!<a class="headerlink" href="#welcome-to-mlbugdetection-s-documentation" title="Permalink to this heading"></a></h1>
+  <section id="mlbugdetection">
+<h1>MLBugDetection<a class="headerlink" href="#mlbugdetection" title="Permalink to this heading"></a></h1>
+<p>Most machine learning explainability packages requires both trained models and the training data to create Explainer objects that explain the model’s behavior. This package allows ceteris paribus analysis of features using only the trained model and one or more input samples.</p>
 </section>
 <section id="resources">
 <h1>Resources<a class="headerlink" href="#resources" title="Permalink to this heading"></a></h1>
 <ul class="simple">
-<li><p><a class="reference external" href="https://github.com/jpgianfaldoni/MLBugDetection/">GitHub</a></p></li>
-<li><p><a class="reference external" href="../src/Tutorial.html">Tutorial</a></p></li>
+<li><p>Source code on <a class="reference external" href="https://github.com/jpgianfaldoni/MLBugDetection/">GitHub</a></p></li>
+<li><p>How to use? You can see here in the <a class="reference external" href="../src/Tutorial.html">Tutorial</a></p></li>
 </ul>
 </section>
-<section id="instalation">
-<h1>Instalation<a class="headerlink" href="#instalation" title="Permalink to this heading"></a></h1>
-<p><strong>Option 1: Install from pip</strong></p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>pip install mlbugdetection
-</pre></div>
-</div>
-<p><strong>Option 2: Install from source</strong></p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>git clone https://github.com/jpgianfaldoni/MLBugDetection.git
-<span class="nb">cd</span> mlbugdetection
-pip install .
-</pre></div>
+<section id="topics">
+<h1>Topics<a class="headerlink" href="#topics" title="Permalink to this heading"></a></h1>
+<p>Here, you can see how to install the library and see all modules and functions.</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="analysis.html">Analysis Report</a></li>
+<li class="toctree-l1"><a class="reference internal" href="monotonic.html">Monotonicity Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="critical.html">Critical Values Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="calibration.html">Calibration Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sanity.html">Sanity Check Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="data.html">Load Data Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="model.html">Load Model Module</a></li>
+</ul>
 </div>
 </section>
 <section id="indices-and-tables">
@@ -103,25 +107,13 @@ pip install .
 <li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></p></li>
 <li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
 </ul>
-<div class="toctree-wrapper compound">
-<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="mlbugdetection.html">mlbugdetection.analysis_report module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="mlbugdetection.html#module-mlbugdetection.calibration">mlbugdetection.calibration module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="mlbugdetection.html#module-mlbugdetection.critical_values">mlbugdetection.critical_values module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="mlbugdetection.html#module-mlbugdetection.monotonic">mlbugdetection.monotonic module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="mlbugdetection.html#module-mlbugdetection.sanity">mlbugdetection.sanity module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="mlbugdetection.html#module-mlbugdetection.load_data">mlbugdetection.load_data module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="mlbugdetection.html#module-mlbugdetection.load_models">mlbugdetection.load_models module</a></li>
-</ul>
-</div>
 </section>
 
 
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="mlbugdetection.html" class="btn btn-neutral float-right" title="mlbugdetection.analysis_report module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="installation.html" class="btn btn-neutral float-right" title="Installation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

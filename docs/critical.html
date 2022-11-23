@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Critical Values Analysis &mdash; mlbugdetection  documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Calibration Analysis" href="calibration.html" />
+    <link rel="prev" title="Monotonicity Analysis" href="monotonic.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> mlbugdetection
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="analysis.html">Analysis Report</a></li>
+<li class="toctree-l1"><a class="reference internal" href="monotonic.html">Monotonicity Analysis</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Critical Values Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="calibration.html">Calibration Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sanity.html">Sanity Check Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="data.html">Load Data Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="model.html">Load Model Module</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">mlbugdetection</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">Critical Values Analysis</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/critical.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-mlbugdetection.critical_values">
+<span id="critical-values-analysis"></span><h1>Critical Values Analysis<a class="headerlink" href="#module-mlbugdetection.critical_values" title="Permalink to this heading"></a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="mlbugdetection.critical_values.find_critical_values">
+<span class="sig-prename descclassname"><span class="pre">mlbugdetection.critical_values.</span></span><span class="sig-name descname"><span class="pre">find_critical_values</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stop</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">step</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keep_n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">3</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mlbugdetection/critical_values.html#find_critical_values"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mlbugdetection.critical_values.find_critical_values" title="Permalink to this definition"></a></dt>
+<dd><dl class="simple">
+<dt>Critical Values Finder</dt><dd><p>Finds highest changes (positive or negative) in predict_proba
+over an specified inteval [<cite>start</cite>, <cite>stop</cite>].</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>model</strong> (<em>sklearn model</em><em> or </em><em>str</em>) – Model already trained and tested from scikit-learn. Could be a model object or a path to a model file.</p></li>
+<li><p><strong>sample</strong> (<em>pandas DataFrame</em>) – A single row of the dataframe that will be used for the analysis.</p></li>
+<li><p><strong>feature</strong> (<em>str</em>) – Feature of dataframe that will be analysed.</p></li>
+<li><p><strong>start</strong> (<em>int</em>) – The starting value of the feature’s interval.</p></li>
+<li><p><strong>stop</strong> (<em>int</em>) – The end value of the feature’s interval.</p></li>
+<li><p><strong>step</strong> (<em>float</em><em>, </em><em>default=1</em>) – Size of the step between ranges “start” and “stop”.
+Ex: step = 0.1 between ranges 0 and 1 will result in [0  0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9]</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="simple">
+<dt>keep_n<span class="classifier">int, default=3</span></dt><dd><p>Number of values that are to be keeped in each list</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><ul>
+<li><p><em>AnalysisReport object with following attributes</em> – For more information:
+&gt;&gt;&gt; from mlbugdetection.analysis_report import AnalysisReport
+&gt;&gt;&gt; help(AnalysisReport)</p></li>
+<li><p><strong>model_name</strong> (<em>str</em>) – Name of the model being analysed.</p></li>
+<li><p><strong>analysed_feature</strong> (<em>str</em>) – Name of the feature being analysed.</p></li>
+<li><p><strong>feature_range</strong> (<em>tuple</em>) – Range of values of the feature being analysed: (start, stop).</p></li>
+<li><p><strong>metrics</strong> (<em>dictionary</em>) – Dictionary with all the calculated metrics, such as:</p>
+<dl>
+<dt>’positive_changes_proba’<span class="classifier">List</span></dt><dd><blockquote>
+<div><p>List of feature ranges that resulted in the biggest positive
+changes in the model`s prediction probability.</p>
+</div></blockquote>
+<dl class="simple">
+<dt>’positive_changes_proba’<span class="classifier">List</span></dt><dd><p>List of biggest positive variations in the model`s prediction
+probability.</p>
+</dd>
+</dl>
+</dd>
+<dt>’negative_changes_ranges’<span class="classifier">List</span></dt><dd><p>List of feature ranges that resulted in the biggest negative
+changes in the model`s prediction probability.</p>
+</dd>
+<dt>’negative_changes_proba’<span class="classifier">List</span></dt><dd><p>List of biggest negative variations in the model`s prediction
+probability.</p>
+</dd>
+<dt>’classification_change_ranges’<span class="classifier">List</span></dt><dd><p>List of feature ranges that resulted in a change of the model`s
+classification.</p>
+</dd>
+<dt>’classification_change_proba’<span class="classifier">List</span></dt><dd><p>List of prediction probability values before and after the
+classification change.</p>
+</dd>
+</dl>
+</li>
+<li><p><strong>graphs</strong> (<em>List</em>) – List of all the figures created.</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mlbugdetection.critical_values.find_several_critical_values">
+<span class="sig-prename descclassname"><span class="pre">mlbugdetection.critical_values.</span></span><span class="sig-name descname"><span class="pre">find_several_critical_values</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">samples</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stop</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">step</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bins</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">15</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keep_n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mlbugdetection/critical_values.html#find_several_critical_values"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mlbugdetection.critical_values.find_several_critical_values" title="Permalink to this definition"></a></dt>
+<dd><dl class="simple">
+<dt>Critical Values Finder in Several Samples</dt><dd><p>Finds mean, median, standard deviation, variation of the critical values
+found in the samples over an specified inteval [<cite>start</cite>, <cite>stop</cite>].</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>model</strong> (<em>sklearn model</em><em> or </em><em>str</em>) – Model already trained and tested from scikit-learn. Could be a model object or a path to a model file.</p></li>
+<li><p><strong>samples</strong> (<em>pandas DataFrame</em>) – Two or more rows of the dataframe that will be used for the analysis.</p></li>
+<li><p><strong>feature</strong> (<em>str</em>) – Feature of dataframe that will be analysed.</p></li>
+<li><p><strong>start</strong> (<em>int</em>) – The starting value of the feature’s interval.</p></li>
+<li><p><strong>stop</strong> (<em>int</em>) – The end value of the feature’s interval.</p></li>
+<li><p><strong>step</strong> (<em>float</em><em>, </em><em>default=1</em>) – Size of the step between ranges “start” and “stop”.
+Ex: step = 0.1 between ranges 0 and 1 will result in [0  0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9]</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="simple">
+<dt>bins<span class="classifier">int, default=15</span></dt><dd><p>It defines the number of equal-width bins in the range.</p>
+</dd>
+<dt>keep_n<span class="classifier">int, default=5</span></dt><dd><p>Number of the highest values to use for mean, median, std, var calculation.</p>
+</dd>
+<dt>log<span class="classifier">bool, default=False</span></dt><dd><p>If True, the histogram axis will be set to a log scale.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><ul>
+<li><p><em>AnalysisReport object with following attributes</em> – For more information:
+&gt;&gt;&gt; from mlbugdetection.analysis_report import AnalysisReport
+&gt;&gt;&gt; help(AnalysisReport)</p></li>
+<li><p><strong>model_name</strong> (<em>str</em>) – Name of the model being analysed.</p></li>
+<li><p><strong>analysed_feature</strong> (<em>str</em>) – Name of the feature being analysed.</p></li>
+<li><p><strong>feature_range</strong> (<em>tuple</em>) – Range of values of the feature being analysed: (start, stop).</p></li>
+<li><p><strong>metrics</strong> (<em>dictionary</em>) – Dictionary with all the calculated metrics, such as:</p>
+<dl>
+<dt>’positive_means’<span class="classifier">dictionary</span></dt><dd><p>Contains the following:</p>
+<dl class="simple">
+<dt>’mean’<span class="classifier">float</span></dt><dd><p>Mean of the all the positive changes means</p>
+</dd>
+<dt>’median’<span class="classifier">float</span></dt><dd><p>Median of the all the positive changes means</p>
+</dd>
+<dt>’std’<span class="classifier">float</span></dt><dd><p>Standard Deviation of the all the positive changes means</p>
+</dd>
+<dt>’var’<span class="classifier">float</span></dt><dd><p>Variation of the all the positive changes means</p>
+</dd>
+</dl>
+</dd>
+<dt>’negative_means’<span class="classifier">dictionary</span></dt><dd><p>Contains the following:</p>
+<dl class="simple">
+<dt>’mean’<span class="classifier">float</span></dt><dd><p>Mean of the all the negative changes means</p>
+</dd>
+<dt>’median’<span class="classifier">float</span></dt><dd><p>Median of the all the negative changes means</p>
+</dd>
+<dt>’std’<span class="classifier">float</span></dt><dd><p>Standard Deviation of the all the negative changes means</p>
+</dd>
+<dt>’var’<span class="classifier">float</span></dt><dd><p>Variation of the all the negative changes means</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</li>
+</ul>
+</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>graphs<span class="classifier">List</span></dt><dd><p>List of all the figures created.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mlbugdetection.critical_values.highest_and_lowest_indexes">
+<span class="sig-prename descclassname"><span class="pre">mlbugdetection.critical_values.</span></span><span class="sig-name descname"><span class="pre">highest_and_lowest_indexes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">predictions</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keep_n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">3</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mlbugdetection/critical_values.html#highest_and_lowest_indexes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mlbugdetection.critical_values.highest_and_lowest_indexes" title="Permalink to this definition"></a></dt>
+<dd><dl class="simple">
+<dt>Return indexes of highest changes (positive or negative)</dt><dd><p>in predictions</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>predictions</strong> (<em>list</em>) – Array that contains predictions to be analysed</p></li>
+<li><p><strong>keep_n</strong> (<em>int</em>) – Number of values that are to be keeped in each list</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="monotonic.html" class="btn btn-neutral float-left" title="Monotonicity Analysis" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="calibration.html" class="btn btn-neutral float-right" title="Calibration Analysis" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Joao, William, Giovanni.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -36,15 +36,15 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../../mlbugdetection.html">mlbugdetection.analysis_report module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../mlbugdetection.html#module-mlbugdetection.calibration">mlbugdetection.calibration module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../mlbugdetection.html#module-mlbugdetection.critical_values">mlbugdetection.critical_values module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../mlbugdetection.html#module-mlbugdetection.monotonic">mlbugdetection.monotonic module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../mlbugdetection.html#module-mlbugdetection.sanity">mlbugdetection.sanity module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../mlbugdetection.html#module-mlbugdetection.load_data">mlbugdetection.load_data module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../mlbugdetection.html#module-mlbugdetection.load_models">mlbugdetection.load_models module</a></li>
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../analysis.html">Analysis Report</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../monotonic.html">Monotonicity Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../critical.html">Critical Values Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../calibration.html">Calibration Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../sanity.html">Sanity Check Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../data.html">Load Data Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../model.html">Load Model Module</a></li>
 </ul>
 
         </div>
@@ -78,7 +78,7 @@
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">.analysis_report</span> <span class="kn">import</span> <span class="n">AnalysisReport</span>
 
-<div class="viewcode-block" id="highest_and_lowest_indexes"><a class="viewcode-back" href="../../mlbugdetection.html#mlbugdetection.critical_values.highest_and_lowest_indexes">[docs]</a><span class="k">def</span> <span class="nf">highest_and_lowest_indexes</span><span class="p">(</span><span class="n">predictions</span> <span class="p">:</span> <span class="nb">list</span><span class="p">,</span> <span class="n">keep_n</span> <span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">3</span><span class="p">):</span>
+<div class="viewcode-block" id="highest_and_lowest_indexes"><a class="viewcode-back" href="../../critical.html#mlbugdetection.critical_values.highest_and_lowest_indexes">[docs]</a><span class="k">def</span> <span class="nf">highest_and_lowest_indexes</span><span class="p">(</span><span class="n">predictions</span> <span class="p">:</span> <span class="nb">list</span><span class="p">,</span> <span class="n">keep_n</span> <span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">3</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;Return indexes of highest changes (positive or negative) </span>
 <span class="sd">       in predictions </span>
 
@@ -102,7 +102,7 @@
 
     <span class="k">return</span> <span class="n">highest_indexes</span><span class="p">,</span> <span class="n">lowest_indexes</span></div>
 
-<div class="viewcode-block" id="find_critical_values"><a class="viewcode-back" href="../../mlbugdetection.html#mlbugdetection.critical_values.find_critical_values">[docs]</a><span class="k">def</span> <span class="nf">find_critical_values</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">sample</span><span class="p">,</span> <span class="n">feature</span> <span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">start</span> <span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">stop</span> <span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">step</span> <span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">keep_n</span> <span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">3</span><span class="p">):</span>
+<div class="viewcode-block" id="find_critical_values"><a class="viewcode-back" href="../../critical.html#mlbugdetection.critical_values.find_critical_values">[docs]</a><span class="k">def</span> <span class="nf">find_critical_values</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">sample</span><span class="p">,</span> <span class="n">feature</span> <span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">start</span> <span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">stop</span> <span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">step</span> <span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">keep_n</span> <span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">3</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;Critical Values Finder</span>
 <span class="sd">        Finds highest changes (positive or negative) in predict_proba </span>
 <span class="sd">        over an specified inteval [`start`, `stop`].</span>
@@ -252,7 +252,7 @@
     <span class="k">return</span> <span class="n">report</span></div>
 
 
-<div class="viewcode-block" id="find_several_critical_values"><a class="viewcode-back" href="../../mlbugdetection.html#mlbugdetection.critical_values.find_several_critical_values">[docs]</a><span class="k">def</span> <span class="nf">find_several_critical_values</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">samples</span><span class="p">,</span> <span class="n">feature</span> <span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">start</span> <span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">stop</span> <span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">step</span> <span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">bins</span> <span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">15</span><span class="p">,</span> <span class="n">keep_n</span> <span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span> <span class="n">log</span> <span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="find_several_critical_values"><a class="viewcode-back" href="../../critical.html#mlbugdetection.critical_values.find_several_critical_values">[docs]</a><span class="k">def</span> <span class="nf">find_several_critical_values</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">samples</span><span class="p">,</span> <span class="n">feature</span> <span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">start</span> <span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">stop</span> <span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">step</span> <span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">bins</span> <span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">15</span><span class="p">,</span> <span class="n">keep_n</span> <span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span> <span class="n">log</span> <span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;Critical Values Finder in Several Samples</span>
 <span class="sd">        Finds mean, median, standard deviation, variation of the critical values</span>
 <span class="sd">        found in the samples over an specified inteval [`start`, `stop`].</span>

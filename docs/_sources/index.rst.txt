@@ -3,32 +3,30 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to MLBugDetection's documentation!
+MLBugDetection
 ===========================================
-
+Most machine learning explainability packages requires both trained models and the training data to create Explainer objects that explain the model's behavior. This package allows ceteris paribus analysis of features using only the trained model and one or more input samples.
 
 Resources
 ===========================================
-* `GitHub <https://github.com/jpgianfaldoni/MLBugDetection/>`_
-* `Tutorial <../src/Tutorial.html>`_
+* Source code on `GitHub <https://github.com/jpgianfaldoni/MLBugDetection/>`_
+* How to use? You can see here in the `Tutorial <../src/Tutorial.html>`_
 
-Instalation
+Topics
 ===========================================
-**Option 1: Install from pip**
+Here, you can see how to install the library and see all modules and functions.
 
-.. code-block:: shell
-
-   pip install mlbugdetection
-
-**Option 2: Install from source**
-
-.. code-block:: shell
-
-   git clone https://github.com/jpgianfaldoni/MLBugDetection.git
-   cd mlbugdetection
-   pip install .
-
-
+.. toctree::
+   :maxdepth: 2
+   
+   installation
+   analysis
+   monotonic
+   critical
+   calibration
+   sanity
+   data
+   model
 
 Indices and tables
 ===========================================
@@ -36,9 +34,3 @@ Indices and tables
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
-
-.. toctree::
-   :maxdepth: 2
-   :caption: Contents:
-
-   mlbugdetection

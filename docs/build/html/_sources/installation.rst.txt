@@ -3,13 +3,17 @@ Installation
 
 If you already have Python and pip, you can use the first option:
 
-**Option 1: Install from pip**::
+**Option 1: Install from pip**
+
+.. code-block:: shell
 
    $ pip install mlbugdetection
 
 You can either use the source code, as shows option 2:
 
-**Option 2: Install from source**::
+**Option 2: Install from source**
+
+.. code-block:: shell
 
    $ git clone https://github.com/jpgianfaldoni/MLBugDetection.git
    $ cd MLBugDetection

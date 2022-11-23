@@ -77,7 +77,7 @@
 <span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">brier_score_loss</span>
 <span class="kn">from</span> <span class="nn">.analysis_report</span> <span class="kn">import</span> <span class="n">AnalysisReport</span>
 
-<div class="viewcode-block" id="calibration_check"><a class="viewcode-back" href="../../calibration.html#mlbugdetection.calibration.calibration_check">[docs]</a><span class="k">def</span> <span class="nf">calibration_check</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">samples</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>
+<div class="viewcode-block" id="calibration_check"><a class="viewcode-back" href="../../calibration.html#mlbugdetection.calibration.calibration_check">[docs]</a><span class="k">def</span> <span class="nf">calibration_check</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">samples</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">pos_label</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;Calibration check for a model</span>
 <span class="sd">        Analyzes the calibration of a model with samples and uses the</span>
 <span class="sd">        Brier score loss as a metric for the calibration.</span>
@@ -92,6 +92,12 @@
 <span class="sd">    </span>
 <span class="sd">    target : str</span>
 <span class="sd">        The name of the column containing the target variable.</span>
+
+<span class="sd">    pos_label: int or str, default=1</span>
+<span class="sd">        The class considered as the positive class when computing the brier score loss.</span>
+<span class="sd">        To understand more this parameter, see the documentation of the brier_score_loss function:</span>
+<span class="sd">        &gt;&gt;&gt; from sklearn.metrics import brier_score_loss</span>
+<span class="sd">        &gt;&gt;&gt; help(brier_score_loss)</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -130,7 +136,7 @@
     <span class="n">X</span> <span class="o">=</span> <span class="n">samples</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="n">target</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
     <span class="n">y_true</span> <span class="o">=</span> <span class="n">samples</span><span class="p">[</span><span class="n">target</span><span class="p">]</span>
     <span class="n">y_pred</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">X</span><span class="p">)[:,</span><span class="mi">1</span><span class="p">]</span>
-    <span class="n">brier_score</span> <span class="o">=</span> <span class="n">brier_score_loss</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+    <span class="n">brier_score</span> <span class="o">=</span> <span class="n">brier_score_loss</span><span class="p">(</span><span class="n">y_true</span><span class="o">=</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_prob</span><span class="o">=</span><span class="n">y_pred</span><span class="p">,</span> <span class="n">pos_label</span><span class="o">=</span><span class="n">pos_label</span><span class="p">)</span>
     <span class="n">fig</span> <span class="o">=</span> <span class="n">CalibrationDisplay</span><span class="o">.</span><span class="n">from_estimator</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y_true</span><span class="p">)</span><span class="o">.</span><span class="n">figure_</span>
     <span class="n">report</span><span class="o">.</span><span class="n">graphs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fig</span><span class="p">)</span>
     <span class="n">report</span><span class="o">.</span><span class="n">model_name</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="n">model</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span>

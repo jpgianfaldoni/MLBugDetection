@@ -8,9 +8,9 @@ Most machine learning explainability packages requires both trained models and t
 
 ## Documentation
 
-https://jpgianfaldoni.github.io/MLBugDetection/
+- https://jpgianfaldoni.github.io/MLBugDetection/
 
-Instalation: 
+# Instalation: 
 
 ```bash
 pip install mlbugdetection
@@ -27,12 +27,12 @@ pip install mlbugdetection
     Usage:
     For 1 sample
     ```py
-    check_monotonicity_single_sample(model, sample, feature, start, stop, steps=100)
+    check_monotonicity_single_sample(model, sample, feature, start, stop, step=1)
     ```
     
     For more than 1 sample:
     ```py
-    check_monotonicity_multiple_samples(model, sample, feature, start, stop, steps=100) 
+    check_monotonicity_multiple_samples(model, sample, feature, start, stop, step=1) 
     ```
     
 
@@ -44,12 +44,12 @@ pip install mlbugdetection
     Usage:
     For 1 sample
     ```py
-    find_critical_values(model, sample, feature, start, stop, step=100)
+    find_critical_values(model, sample, feature, start, stop, step=1)
     ```
 
     For more than 1 sample:
     ```py
-    find_several_critical_values(model, samples, feature, start, stop, steps=100, bins=15, keep_n=5, log=False)
+    find_several_critical_values(model, samples, feature, start, stop, step=1, bins=15, keep_n=5, log=False)
     ```
 
 
@@ -60,7 +60,7 @@ pip install mlbugdetection
     
     Usage:
     ```py
-    calibration_check(model, samples, target)
+    calibration_check(model, samples, target, pos_label=1)
     ```
 
 4. Sanity:

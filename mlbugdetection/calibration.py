@@ -3,7 +3,7 @@ from sklearn.calibration import CalibrationDisplay
 from sklearn.metrics import brier_score_loss
 from .analysis_report import AnalysisReport
 
-def calibration_check(model, samples, target):
+def calibration_check(model, samples, target, pos_label):
     '''Calibration check for a model
         Analyzes the calibration of a model with samples and uses the
         Brier score loss as a metric for the calibration.
@@ -18,6 +18,12 @@ def calibration_check(model, samples, target):
     
     target : str
         The name of the column containing the target variable.
+
+    pos_label: int or str, default=1
+        The class considered as the positive class when computing the brier score loss.
+        To understand more this parameter, see the documentation of the brier_score_loss function:
+        >>> from sklearn.metrics import brier_score_loss
+        >>> help(brier_score_loss)
 
     Returns
     -------
@@ -56,7 +62,7 @@ def calibration_check(model, samples, target):
     X = samples.drop([target], axis=1)
     y_true = samples[target]
     y_pred = model.predict_proba(X)[:,1]
-    brier_score = brier_score_loss(y_true, y_pred)
+    brier_score = brier_score_loss(y_true=y_true, y_prob=y_pred, pos_label=pos_label)
     fig = CalibrationDisplay.from_estimator(model, X, y_true).figure_
     report.graphs.append(fig)
     report.model_name = type(model).__name__

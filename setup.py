@@ -3,6 +3,12 @@ from setuptools import setup, find_packages
 VERSION = '0.0.10'
 DESCRIPTION = 'A package for identify Machine Learning bugs'
 
+with open('README.md', 'r') as f:
+    LONG_DESCRIPTION = f.read()
+
+with open('requirements.txt', 'r') as f:
+    INSTALL_REQUIRES = f.read().strip().split('\n')
+
 # Setting up
 setup(
     name="mlbugdetection",
@@ -10,14 +16,15 @@ setup(
     author="João Gianfaldoni | Giovanni Cardoso | William Silva",
     author_email="william.silva.ismart@gmail.com",
     description=DESCRIPTION,
+    long_description=LONG_DESCRIPTION,
     long_description_content_type="text/markdown",
     packages=find_packages(),
-    install_requires=["pandas", "numpy", "matplotlib", "sklearn"],
-    keywords=['python'],
+    install_requires=INSTALL_REQUIRES,
+    keywords=['python', 'machine learning', 'bug detection'],
     include_package_data=True,
     package_data={'': ['data/*.csv', 'models/*.pkl']},
     classifiers=[
-        "Development Status :: 1 - Planning",
+        "Development Status :: 3 - Alpha",
         "Intended Audience :: Developers",
         "Programming Language :: Python :: 3",
         "Operating System :: Unix",

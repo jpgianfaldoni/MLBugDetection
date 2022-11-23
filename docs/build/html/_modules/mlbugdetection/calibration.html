@@ -36,15 +36,15 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../../mlbugdetection.html">mlbugdetection.analysis_report module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../mlbugdetection.html#module-mlbugdetection.calibration">mlbugdetection.calibration module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../mlbugdetection.html#module-mlbugdetection.critical_values">mlbugdetection.critical_values module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../mlbugdetection.html#module-mlbugdetection.monotonic">mlbugdetection.monotonic module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../mlbugdetection.html#module-mlbugdetection.sanity">mlbugdetection.sanity module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../mlbugdetection.html#module-mlbugdetection.load_data">mlbugdetection.load_data module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../mlbugdetection.html#module-mlbugdetection.load_models">mlbugdetection.load_models module</a></li>
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../analysis.html">Analysis Report</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../monotonic.html">Monotonicity Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../critical.html">Critical Values Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../calibration.html">Calibration Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../sanity.html">Sanity Check Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../data.html">Load Data Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../model.html">Load Model Module</a></li>
 </ul>
 
         </div>
@@ -77,7 +77,7 @@
 <span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">brier_score_loss</span>
 <span class="kn">from</span> <span class="nn">.analysis_report</span> <span class="kn">import</span> <span class="n">AnalysisReport</span>
 
-<div class="viewcode-block" id="calibration_check"><a class="viewcode-back" href="../../mlbugdetection.html#mlbugdetection.calibration.calibration_check">[docs]</a><span class="k">def</span> <span class="nf">calibration_check</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">samples</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>
+<div class="viewcode-block" id="calibration_check"><a class="viewcode-back" href="../../calibration.html#mlbugdetection.calibration.calibration_check">[docs]</a><span class="k">def</span> <span class="nf">calibration_check</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">samples</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;Calibration check for a model</span>
 <span class="sd">        Analyzes the calibration of a model with samples and uses the</span>
 <span class="sd">        Brier score loss as a metric for the calibration.</span>

@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Analysis Report &mdash; mlbugdetection  documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Monotonicity Analysis" href="monotonic.html" />
+    <link rel="prev" title="Installation" href="installation.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> mlbugdetection
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Analysis Report</a></li>
+<li class="toctree-l1"><a class="reference internal" href="monotonic.html">Monotonicity Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="critical.html">Critical Values Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="calibration.html">Calibration Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sanity.html">Sanity Check Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="data.html">Load Data Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="model.html">Load Model Module</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">mlbugdetection</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">Analysis Report</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/analysis.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-mlbugdetection.analysis_report">
+<span id="analysis-report"></span><h1>Analysis Report<a class="headerlink" href="#module-mlbugdetection.analysis_report" title="Permalink to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="mlbugdetection.analysis_report.AnalysisReport">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mlbugdetection.analysis_report.</span></span><span class="sig-name descname"><span class="pre">AnalysisReport</span></span><a class="reference internal" href="_modules/mlbugdetection/analysis_report.html#AnalysisReport"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mlbugdetection.analysis_report.AnalysisReport" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Analysis Report Class
+All library functions returns a Analysis Report Object</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>model_name</strong> (<em>str</em><em>, </em><em>default = ''</em>) – Name of the model being analysed.</p></li>
+<li><p><strong>analysed_feature</strong> (<em>str</em><em>, </em><em>default = ''</em>) – Name of the feature being analysed.</p></li>
+<li><p><strong>feature_range</strong> (<em>tuple</em><em>, </em><em>default =</em><em> (</em><em>)</em>) – Range of values of the feature being analysed: (start, stop).</p></li>
+<li><p><strong>metrics</strong> (<em>dictionary</em><em>, </em><em>default = {}</em>) – <p>Dictionary with all the calculated metrics.
+All the possible metrics that can be calculated are:</p>
+<dl>
+<dt>’monotonic’<span class="classifier">bool</span></dt><dd><p>If the list of values is monotonic.</p>
+</dd>
+<dt>’monotonic_score’: float</dt><dd><p>MSE between the list of values and it`s closest monotonic aproximation.</p>
+</dd>
+<dt>’positive_changes_ranges’<span class="classifier">List</span></dt><dd><p>List of feature ranges that resulted in the biggest positive changes in the model`s prediction probability.</p>
+</dd>
+<dt>’positive_changes_proba’<span class="classifier">List</span></dt><dd><p>List of biggest positive variations in the model`s prediction probability.</p>
+</dd>
+<dt>’negative_changes_ranges’<span class="classifier">List</span></dt><dd><p>List of feature ranges that resulted in the biggest negative changes in the model`s prediction probability.</p>
+</dd>
+<dt>’negative_changes_proba’<span class="classifier">List</span></dt><dd><p>List of biggest negative variations in the model`s prediction probability.</p>
+</dd>
+<dt>’classification_change_ranges’<span class="classifier">List</span></dt><dd><p>List of feature ranges that resulted in a change of the model`s classification.</p>
+</dd>
+<dt>’classification_change_proba’<span class="classifier">List</span></dt><dd><p>List of prediction probability values before and after the classification change.</p>
+</dd>
+<dt>’positive_means’<span class="classifier">dictionary</span></dt><dd><p>Contains the following:</p>
+<blockquote>
+<div><dl class="simple">
+<dt>’mean’<span class="classifier">float</span></dt><dd><p>Mean of the all the positive changes means</p>
+</dd>
+<dt>’median’<span class="classifier">float</span></dt><dd><p>Median of the all the positive changes means</p>
+</dd>
+<dt>’std’<span class="classifier">float</span></dt><dd><p>Standard Deviation of the all the positive changes means</p>
+</dd>
+<dt>’var’<span class="classifier">float</span></dt><dd><p>Variation of the all the positive changes means</p>
+</dd>
+</dl>
+</div></blockquote>
+</dd>
+<dt>’negative_means’<span class="classifier">dictionary</span></dt><dd><p>Same as “positive_means”, but for negative variations in the prediction probabilities.</p>
+</dd>
+<dt>’sanity’<span class="classifier">bool</span></dt><dd><p>If the model is sane or not.</p>
+</dd>
+<dt>’sanity_indexes’<span class="classifier">List</span></dt><dd><p>List of indexes of the samples that were misclassified.</p>
+</dd>
+</dl>
+</p></li>
+<li><p><strong>graphs</strong> (<em>List</em><em>, </em><em>default =</em><em> [</em><em>]</em>) – List of all the figures created.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="mlbugdetection.analysis_report.AnalysisReport.save_graphs">
+<span class="sig-name descname"><span class="pre">save_graphs</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mlbugdetection/analysis_report.html#AnalysisReport.save_graphs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mlbugdetection.analysis_report.AnalysisReport.save_graphs" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="installation.html" class="btn btn-neutral float-left" title="Installation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="monotonic.html" class="btn btn-neutral float-right" title="Monotonicity Analysis" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Joao, William, Giovanni.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

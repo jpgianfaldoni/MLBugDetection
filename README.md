@@ -10,7 +10,7 @@ Most machine learning explainability packages requires both trained models and t
 
 - https://jpgianfaldoni.github.io/MLBugDetection/
 
-# Instalation: 
+# Installation: 
 
 ```bash
 pip install mlbugdetection

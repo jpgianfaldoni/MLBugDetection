@@ -3,7 +3,6 @@ import numpy as np
 from matplotlib import pyplot as plt
 from .analysis_report import AnalysisReport
 
-
 def monotonicity_mse(predictions):
     """Monotonicity Mean Square Error
 
@@ -80,7 +79,7 @@ def check_monotonicity_single_sample(model, sample, feature, start, stop, step=1
         'monotonic' : bool
              If the list of values is monotonic.
 
-        'monotonic_score': float
+        'monotonic_mse': float
             MSE between the list of values and it`s closest monotonic aproximation. 
 
     graphs : List
@@ -112,11 +111,11 @@ def check_monotonicity_single_sample(model, sample, feature, start, stop, step=1
     report.graphs.append(fig)
     if monotonic:
         report.metrics["monotonic"] = True
-        report.metrics["monotonic_score"] = 1
+        report.metrics["monotonic_mse"] = 0
     else:
         report.metrics["monotonic"] = False
         monotonic_curve, m_mse_score = monotonicity_mse(predictions)
-        report.metrics["monotonic_score"] = m_mse_score
+        report.metrics["monotonic_mse"] = m_mse_score
         plt.plot(colValues, monotonic_curve, linestyle='dashed', color='red', alpha=0.7, label="Monotonic Approximation")
     plt.plot(colValues, predictions, color='blue', alpha=0.7, label="Predictions Curve")
     plt.title(f"Model: {type(model).__name__}")
@@ -124,7 +123,6 @@ def check_monotonicity_single_sample(model, sample, feature, start, stop, step=1
     plt.ylabel('Predict proba')
     plt.legend(loc="lower right")
     return report
-
 
 def check_monotonicity_multiple_samples(model, sample, feature, start, stop, step=1):
     '''Monotonicity Analysis for multiple examples
@@ -135,7 +133,7 @@ def check_monotonicity_multiple_samples(model, sample, feature, start, stop, ste
         Model that will be used to make predictions. Could be a model object or a path to a model file.
 
     sample : pandas.DataFrame
-        Pandas DataFrame containing one row that will be used as base point.
+        Pandas DataFrame containing two or more rows that will be used as base point.
 
     feature : str
         Name of the feature being analysed.
@@ -172,7 +170,7 @@ def check_monotonicity_multiple_samples(model, sample, feature, start, stop, ste
         'monotonic' : bool
              If the list of values is monotonic.
 
-        'monotonic_score': float
+        'monotonic_mse': float
             MSE between the list of values and it`s closest monotonic aproximation. 
         
         'monotonic_means_std': float
@@ -191,7 +189,6 @@ def check_monotonicity_multiple_samples(model, sample, feature, start, stop, ste
     colValues = []
     predictions = []
 
-
     for i in np.arange(start,stop,step):
         colValues.append(i)
         sample[feature] = i
@@ -206,11 +203,11 @@ def check_monotonicity_multiple_samples(model, sample, feature, start, stop, ste
     report.graphs.append(fig)
     if monotonic:
         report.metrics["monotonic"] = True
-        report.metrics["monotonic_score"] = 1
+        report.metrics["monotonic_mse"] = 0
     else:
         report.metrics["monotonic"] = False
         monotonic_curve, m_mse_score = monotonicity_mse(predictions)
-        report.metrics["monotonic_score"] = m_mse_score
+        report.metrics["monotonic_mse"] = m_mse_score
         plt.plot(colValues, monotonic_curve, linestyle='dashed', color='red', alpha=0.7, label="Monotonic Approximation")
     report.metrics["monotonic_means_std"] = np.nanstd(predictions)
     plt.plot(colValues, predictions, color='blue', alpha=0.7, label="Predictions Curve")

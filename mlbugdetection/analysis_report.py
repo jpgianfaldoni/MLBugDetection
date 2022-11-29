@@ -23,7 +23,7 @@ class AnalysisReport:
         'monotonic' : bool
              If the list of values is monotonic.
 
-        'monotonic_score': float
+        'monotonic_mse': float
             MSE between the list of values and it`s closest monotonic aproximation.
 
         'positive_changes_ranges' : List

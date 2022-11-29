@@ -20,7 +20,7 @@ def sanity_check(model, samples, target):
         The model to be used for prediction. Could be a model object or a path to a model file.
 
     samples : pandas DataFrame
-        The samples to be used for prediction, which the model
+        The samples (or sample) to be used for prediction, which the model
         need to predict correctly. 
 
     target : str
@@ -56,7 +56,7 @@ def sanity_check_with_indexes(model, samples, target):
         The model to be used for prediction. Could be a model object or a path to a model file.
 
     samples : pandas DataFrame
-        The samples to be used for prediction, which the model
+        The samples (or sample) to be used for prediction, which the model
         need to predict correctly. 
 
     target : str

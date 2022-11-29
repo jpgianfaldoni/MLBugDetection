@@ -10,7 +10,8 @@ Most machine learning explainability packages requires both trained models and t
 Resources
 ===========================================
 * Source code on `GitHub <https://github.com/jpgianfaldoni/MLBugDetection/>`_
-* How to use? You can see here in the `Tutorial <https://jpgianfaldoni.github.io/MlbgTutorial/>`_
+* How to use? You can check the `Tutorial <https://jpgianfaldoni.github.io/MlbgTutorial/>`_
+* Do you want to contribute? `Check here <https://github.com/jpgianfaldoni/MLBugDetection/blob/main/CONTRIBUTING.md>`_
 
 Topics
 ===========================================

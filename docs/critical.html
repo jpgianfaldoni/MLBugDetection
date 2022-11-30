@@ -93,17 +93,12 @@ over an specified inteval [<cite>start</cite>, <cite>stop</cite>].</p>
 <li><p><strong>start</strong> (<em>int</em>) – The starting value of the feature’s interval.</p></li>
 <li><p><strong>stop</strong> (<em>int</em>) – The end value of the feature’s interval.</p></li>
 <li><p><strong>step</strong> (<em>float</em><em>, </em><em>default=1</em>) – Size of the step between ranges “start” and “stop”.
-Ex: step = 0.1 between ranges 0 and 1 will result in [0  0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9]</p></li>
+Ex: step = 0.1 between ranges 0 and 1 will result in [0 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9].</p></li>
+<li><p><strong>keep_n</strong> (<em>int</em><em>, </em><em>default=3</em>) – Number of values that are to be keeped in each list.</p></li>
 </ul>
 </dd>
-</dl>
-<dl class="simple">
-<dt>keep_n<span class="classifier">int, default=3</span></dt><dd><p>Number of values that are to be keeped in each list</p>
-</dd>
-</dl>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p><ul>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul>
 <li><p><em>AnalysisReport object with following attributes</em> – For more information:
 &gt;&gt;&gt; from mlbugdetection.analysis_report import AnalysisReport
 &gt;&gt;&gt; help(AnalysisReport)</p></li>
@@ -160,21 +155,14 @@ found in the samples over an specified inteval [<cite>start</cite>, <cite>stop</
 <li><p><strong>start</strong> (<em>int</em>) – The starting value of the feature’s interval.</p></li>
 <li><p><strong>stop</strong> (<em>int</em>) – The end value of the feature’s interval.</p></li>
 <li><p><strong>step</strong> (<em>float</em><em>, </em><em>default=1</em>) – Size of the step between ranges “start” and “stop”.
-Ex: step = 0.1 between ranges 0 and 1 will result in [0  0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9]</p></li>
+Ex: step = 0.1 between ranges 0 and 1 will result in [0  0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9].</p></li>
+<li><p><strong>bins</strong> (<em>int</em><em>, </em><em>default=15</em>) – It defines the number of equal-width bins in the range.</p></li>
+<li><p><strong>keep_n</strong> (<em>int</em><em>, </em><em>default=5</em>) – Number of the highest values to use for mean, median, std, var calculation.</p></li>
+<li><p><strong>log</strong> (<em>bool</em><em>, </em><em>default=False</em>) – If True, the histogram axis will be set to a log scale.</p></li>
 </ul>
 </dd>
-</dl>
-<dl class="simple">
-<dt>bins<span class="classifier">int, default=15</span></dt><dd><p>It defines the number of equal-width bins in the range.</p>
-</dd>
-<dt>keep_n<span class="classifier">int, default=5</span></dt><dd><p>Number of the highest values to use for mean, median, std, var calculation.</p>
-</dd>
-<dt>log<span class="classifier">bool, default=False</span></dt><dd><p>If True, the histogram axis will be set to a log scale.</p>
-</dd>
-</dl>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p><ul>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul>
 <li><p><em>AnalysisReport object with following attributes</em> – For more information:
 &gt;&gt;&gt; from mlbugdetection.analysis_report import AnalysisReport
 &gt;&gt;&gt; help(AnalysisReport)</p></li>
@@ -209,12 +197,9 @@ Ex: step = 0.1 between ranges 0 and 1 will result in [0  0.1 0.2 0.3 0.4 0.5 0.6
 </dd>
 </dl>
 </li>
+<li><p><strong>graphs</strong> (<em>List</em>) – List of all the figures created.</p></li>
 </ul>
 </p>
-</dd>
-</dl>
-<dl class="simple">
-<dt>graphs<span class="classifier">List</span></dt><dd><p>List of all the figures created.</p>
 </dd>
 </dl>
 </dd></dl>

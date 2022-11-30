@@ -154,14 +154,15 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">graphs</span> <span class="o">=</span> <span class="p">[]</span>
 
 <div class="viewcode-block" id="AnalysisReport.save_graphs"><a class="viewcode-back" href="../../analysis.html#mlbugdetection.analysis_report.AnalysisReport.save_graphs">[docs]</a>    <span class="k">def</span> <span class="nf">save_graphs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Saves all figures contained on the &#39;graphs&#39; parameter on a folder called &#39;imgs&#39;.</span>
+<span class="sd">        If the folder does not exists, it will be created automatically.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        
         <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="s2">&quot;imgs&quot;</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">graphs</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">graph</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">graphs</span><span class="p">:</span>
-                <span class="n">graph</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;imgs/</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">model_name</span><span class="si">}</span><span class="s1">_</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">analysed_feature</span><span class="si">}</span><span class="s1">_</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">feature_range</span><span class="si">}</span><span class="s1"> &#39;</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span> 
+                <span class="n">graph</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;imgs/</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">model_name</span><span class="si">}</span><span class="s1">_</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">analysed_feature</span><span class="si">}</span><span class="s1">_</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">feature_range</span><span class="si">}</span><span class="s1"> &#39;</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span> </div></div>
 
-        <span class="sd">&quot;&quot;&quot;Saves all figures contained on the &#39;graphs&#39; parameter on a folder called &#39;imgs&#39;.</span>
-<span class="sd">        If the folder does not exists, it will be created automatically.</span>
-<span class="sd">        &quot;&quot;&quot;</span></div></div>
 </pre></div>
 
            </div>

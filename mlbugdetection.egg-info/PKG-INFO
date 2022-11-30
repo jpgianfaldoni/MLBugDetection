@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: mlbugdetection
-Version: 0.0.11
+Version: 0.0.12
 Summary: A package for identify Machine Learning bugs
 Author: João Gianfaldoni | Giovanni Cardoso | William Silva
 Author-email: william.silva.ismart@gmail.com
@@ -16,7 +16,7 @@ License-File: LICENSE
 
 # MLBugDetection
 
-### Machine learning explainability and unexpectated behaviors detection
+Machine learning explainability and unexpectated behaviors detection
 
 ## Overview
 
@@ -32,7 +32,9 @@ Most machine learning explainability packages requires both trained models and t
 pip install mlbugdetection
 ```
 
+# How to use
 ## Functions
+
 
 
 1. Monotonic:
@@ -48,7 +50,7 @@ pip install mlbugdetection
     
     For more than 1 sample:
     ```py
-    check_monotonicity_multiple_samples(model, sample, feature, start, stop, step=1) 
+    check_monotonicity_multiple_samples(model, samples, feature, start, stop, step=1) 
     ```
     
 

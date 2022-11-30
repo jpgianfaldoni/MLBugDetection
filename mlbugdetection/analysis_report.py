@@ -80,11 +80,12 @@ class AnalysisReport:
         self.graphs = []
 
     def save_graphs(self):
+        """Saves all figures contained on the 'graphs' parameter on a folder called 'imgs'.
+        If the folder does not exists, it will be created automatically.
+        """
+        
         os.makedirs("imgs", exist_ok=True)
         if self.graphs:
             for graph in self.graphs:
                 graph.savefig(f'imgs/{self.model_name}_{self.analysed_feature}_{self.feature_range} ', dpi=200) 
 
-        """Saves all figures contained on the 'graphs' parameter on a folder called 'imgs'.
-        If the folder does not exists, it will be created automatically.
-        """

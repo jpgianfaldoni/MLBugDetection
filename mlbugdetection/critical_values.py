@@ -52,11 +52,10 @@ def find_critical_values(model, sample, feature : str, start : int, stop : int, 
     
     step : float, default=1
         Size of the step between ranges "start" and "stop".
-        Ex: step = 0.1 between ranges 0 and 1 will result in [0  0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9]
-
+        Ex: step = 0.1 between ranges 0 and 1 will result in [0 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9].
 
     keep_n : int, default=3
-        Number of values that are to be keeped in each list
+        Number of values that are to be keeped in each list.
 
     Returns
     -------
@@ -202,8 +201,7 @@ def find_several_critical_values(model, samples, feature : str, start : int, sto
     
     step : float, default=1
         Size of the step between ranges "start" and "stop".
-        Ex: step = 0.1 between ranges 0 and 1 will result in [0  0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9]
-
+        Ex: step = 0.1 between ranges 0 and 1 will result in [0  0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9].
 
     bins : int, default=15
         It defines the number of equal-width bins in the range.
@@ -263,7 +261,6 @@ def find_several_critical_values(model, samples, feature : str, start : int, sto
             'var' : float
                 Variation of the all the negative changes means
 
-        
     graphs : List
         List of all the figures created.
     '''

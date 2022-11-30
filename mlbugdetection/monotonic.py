@@ -124,7 +124,7 @@ def check_monotonicity_single_sample(model, sample, feature, start, stop, step=1
     plt.legend(loc="lower right")
     return report
 
-def check_monotonicity_multiple_samples(model, sample, feature, start, stop, step=1):
+def check_monotonicity_multiple_samples(model, samples, feature, start, stop, step=1):
     '''Monotonicity Analysis for multiple examples
 
     Parameters
@@ -132,7 +132,7 @@ def check_monotonicity_multiple_samples(model, sample, feature, start, stop, ste
     model : sklearn model or str
         Model that will be used to make predictions. Could be a model object or a path to a model file.
 
-    sample : pandas.DataFrame
+    samples : pandas.DataFrame
         Pandas DataFrame containing two or more rows that will be used as base point.
 
     feature : str
@@ -179,8 +179,8 @@ def check_monotonicity_multiple_samples(model, sample, feature, start, stop, ste
     graphs : List
             List of all the figures created.
     '''
-    if len(sample) < 2:
-        raise Exception("Sample must have multiple examples, please use 'check_monotonicity_single_sample' for single example")
+    if len(samples) < 2:
+        raise Exception("Samples must have multiple examples, please use 'check_monotonicity_single_sample' for single example")
     if type(model) == str:
         with open(model, 'rb') as f:
             model = pickle.load(f)
@@ -191,8 +191,8 @@ def check_monotonicity_multiple_samples(model, sample, feature, start, stop, ste
 
     for i in np.arange(start,stop,step):
         colValues.append(i)
-        sample[feature] = i
-        prediction = model.predict_proba(sample)
+        samples[feature] = i
+        prediction = model.predict_proba(samples)
         predictions.append(np.mean(prediction[0][1]))
 
     monotonic =  (all(predictions[i] <= predictions[i + 1] for i in range(len(predictions) - 1)) or all(predictions[i] >= predictions[i + 1] for i in range(len(predictions) - 1)))

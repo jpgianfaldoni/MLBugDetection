@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 
-VERSION = '0.0.10'
+VERSION = '0.0.12'
 DESCRIPTION = 'A package for identify Machine Learning bugs'
 
 with open('README.md', 'r') as f:

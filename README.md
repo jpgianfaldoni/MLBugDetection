@@ -1,6 +1,6 @@
 # MLBugDetection
 
-### Machine learning explainability and unexpectated behaviors detection
+Machine learning explainability and unexpectated behaviors detection
 
 ## Overview
 
@@ -16,7 +16,9 @@ Most machine learning explainability packages requires both trained models and t
 pip install mlbugdetection
 ```
 
+# How to use
 ## Functions
+
 
 
 1. Monotonic:
@@ -32,7 +34,7 @@ pip install mlbugdetection
     
     For more than 1 sample:
     ```py
-    check_monotonicity_multiple_samples(model, sample, feature, start, stop, step=1) 
+    check_monotonicity_multiple_samples(model, samples, feature, start, stop, step=1) 
     ```
     
 

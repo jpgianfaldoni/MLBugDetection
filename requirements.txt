@@ -4,3 +4,6 @@ pandas
 ipykernel
 pytest
 sklearn
+dalex
+nbformat
+shap

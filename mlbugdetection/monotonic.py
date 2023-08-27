@@ -1,3 +1,5 @@
+"""Monotonicity model."""
+
 import pickle
 import numpy as np
 from matplotlib import pyplot as plt
@@ -88,7 +90,7 @@ def check_monotonicity_single_sample(model, sample, feature, start, stop, step=1
 
     if len(sample) > 1:
         raise Exception("Sample must have only one example, please use 'check_monotonicity_multiple_samples' for multiple samples")
-    if type(model) == str:
+    if isinstance(model) == str:
         with open(model, 'rb') as f:
             model = pickle.load(f)
             

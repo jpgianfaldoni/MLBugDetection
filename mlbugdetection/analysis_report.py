@@ -1,3 +1,5 @@
+"""Class AnalysisReport."""
+
 import os
 
 class AnalysisReport:

@@ -1,12 +1,13 @@
+"""Setup module."""
 from setuptools import setup, find_packages
 
 VERSION = '0.0.12'
 DESCRIPTION = 'A package for identify Machine Learning bugs'
 
-with open('README.md', 'r') as f:
+with open('README.md', 'r', encoding="utf-8") as f:
     LONG_DESCRIPTION = f.read()
 
-with open('requirements.txt', 'r') as f:
+with open('requirements.txt', 'r', encoding="utf-8") as f:
     INSTALL_REQUIRES = f.read().strip().split('\n')
 
 # Setting up

@@ -1,3 +1,5 @@
+"""Data loading module."""
+
 import pandas as pd
 import pkg_resources
 

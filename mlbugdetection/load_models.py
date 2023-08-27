@@ -1,4 +1,5 @@
-import pandas as pd
+"""Model loading module."""
+
 import pkg_resources
 
 

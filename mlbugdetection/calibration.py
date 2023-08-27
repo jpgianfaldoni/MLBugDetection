@@ -1,3 +1,5 @@
+"""Calibration module."""
+
 import pickle
 from sklearn.calibration import CalibrationDisplay
 from sklearn.metrics import brier_score_loss
@@ -54,7 +56,7 @@ def calibration_check(model, samples, target, pos_label):
             List of all the figures created.
 
     '''
-    if type(model) == str:
+    if isinstance(model) == str:
         with open(model, 'rb') as f:
             model = pickle.load(f)
 

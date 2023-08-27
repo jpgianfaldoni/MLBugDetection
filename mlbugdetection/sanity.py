@@ -1,3 +1,5 @@
+"""Sanity Model."""
+
 import pickle
 import pandas as pd
 from .analysis_report import AnalysisReport
